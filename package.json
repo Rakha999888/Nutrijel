@@ -31,10 +31,13 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.6",
+    "animate.css": "^4.1.1",
     "chart.js": "^4.4.9",
     "firebase": "^11.8.1",
     "react": "^19.1.0",
+    "react-bits": "^1.0.5",
     "react-dom": "^19.1.0",
+    "react-pageflip": "^2.0.3",
     "react-router-dom": "^7.6.1",
     "swiper": "^11.2.8"
   }
