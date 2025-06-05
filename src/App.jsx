@@ -12,6 +12,7 @@ import Education from "./pages/Education";
 import Login from "./pages/Login";
 import SignUp from "./pages/Register.jsx";
 
+
 function App() {
   return (
     <AuthProvider>

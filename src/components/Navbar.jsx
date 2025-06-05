@@ -19,7 +19,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get initial active index based on current location
   const getInitialActiveIndex = () => {
     const currentIndex = navLinks.findIndex(link => link.href === location.pathname);
     return currentIndex >= 0 ? currentIndex : 0;
@@ -43,14 +42,13 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-100 via-yellow-50 to-orange-50 shadow-lg z-50 font-sans">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
+
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
-          <img 
-            src="/assets/image/logo.png" 
-            alt="NutriCheck Logo" 
-            className="h-10 w-10 md:h-12 md:w-12 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg" 
-          />
-        </Link>
+        <img 
+          src="/assets/image/logo.png" 
+          alt="NutriCheck Logo" 
+          className="h-15 w-15 md:h-20 md:w-20 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg" 
+        />
         
         {/* Desktop Navigation with GooeyNav */}
         <div className="hidden md:block">
@@ -136,15 +134,15 @@ const Navbar = () => {
       )}
       
       {/* Mobile Menu */}
-      <div className={`md:hidden absolute top-full left-0 w-full bg-gradient-to-b from-[#196D0D] to-green-700 shadow-lg z-50 transition-all duration-300 ${
+      <div className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg z-50 transition-all duration-300 ${
         open ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}>
-        <ul className="flex flex-col py-4">
+        <ul className="flex flex-col py-2"> {/* Reduce padding here */}
           {navLinks.map((link, index) => (
             <li key={link.href}>
               <Link
                 to={link.href}
-                className={`block px-6 py-3 text-white hover:bg-white/20 transition-colors duration-200 ${
+                className={`block px-6 py-2 text-[#196D0D] hover:bg-white/20 transition-colors duration-200 ${
                   location.pathname === link.href ? 'bg-white/30 font-bold' : ''
                 }`}
                 onClick={() => setOpen(false)}
@@ -172,7 +170,7 @@ const Navbar = () => {
               <div className="space-y-2">
                 <Link 
                   to="/login" 
-                  className="block w-full bg-white text-[#196D0D] py-2 text-center rounded-full shadow hover:bg-gray-100 transition font-bold" 
+                  className="block w-full bg-[#196D0D] text-white py-2 text-center rounded-full shadow hover:bg-gray-100 transition font-bold" 
                   onClick={() => setOpen(false)}
                 >
                   Login

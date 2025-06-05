@@ -41,7 +41,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex mt-33">
+    <div className="min-h-screen flex pt-20">
       {/* Left Side - Welcome Section */}
       <div className="flex-1 bg-[#A8D5AA] flex flex-col items-center justify-center p-8">
         <div className="text-center">

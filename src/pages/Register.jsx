@@ -63,7 +63,7 @@ const SignUp = () => {
   }
 
   return (
-    <div className="min-h-screen flex mt-33">
+    <div className="min-h-screen flex mt-20">
       {/* Left Side - Sign Up Form */}
       <div className="flex-1 bg-white flex items-center justify-center p-8">
         <div className="max-w-md w-full">

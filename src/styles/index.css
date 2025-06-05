@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "animate.css";
 
 * {
   font-family: "Poppins", sans-serif;
