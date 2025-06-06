@@ -1,3 +1,4 @@
+// routes/foodRoutes.js
 const { getAllFoods, addFood, deleteFood, updateFood } = require("../controllers/foodController");
 
 module.exports = [
