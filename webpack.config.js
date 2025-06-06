@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
   return {
-    entry: "./src/main.jsx", // Pastikan entry point sudah benar
+    entry: "./src/main.jsx",
     output: {
       path: path.resolve(__dirname, "dist"),
       filename: "js/[name].[contenthash].js",
@@ -28,7 +28,7 @@ module.exports = (env, argv) => {
       rules: [
         // JavaScript dan JSX
         {
-          test: /\.(js|jsx)$/, // Menggunakan .js dan .jsx saja
+          test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",
@@ -61,14 +61,22 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./public/index.html", // Template HTML
+        template: "./public/index.html",
         filename: "index.html",
       }),
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: path.resolve(__dirname, "public/assets"),
-            to: "assets",
+            from: "public", // Salin semua dari folder 'public'
+            globOptions: {
+              // Abaikan file 'index.html' karena sudah diurus oleh HtmlWebpackPlugin
+              ignore: ["**/index.html"],
+            },
+          },
+          {
+            from: path.resolve(__dirname, "ml_model"),
+            to: "ml_model",
+            noErrorOnMissing: true,
           },
         ],
       }),
@@ -78,7 +86,7 @@ module.exports = (env, argv) => {
         }),
     ].filter(Boolean),
     resolve: {
-      extensions: [".js", ".jsx"], // Menangani file .js dan .jsx
+      extensions: [".js", ".jsx"],
     },
     optimization: {
       moduleIds: "deterministic",
