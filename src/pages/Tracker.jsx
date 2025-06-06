@@ -4,52 +4,57 @@ import * as tf from "@tensorflow/tfjs";
 import Select from "react-select";
 import toast from "react-hot-toast";
 
+// --- KONFIGURASI DAN URL ---
 ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 const MODEL_URL = "/ml_model/model.json";
 const TOKENIZER_URL = "/ml_model/tokenizer.json";
 const SCALER_PARAMS_URL = "/ml_model/scaler_params.json";
 
-// Konfigurasi default untuk model, akan diupdate saat resource dimuat
+// Konfigurasi default untuk model
 let MODEL_CONFIG = {
-  maxLength: 8, // Fallback default
+  maxLength: 8,
   padTokenId: 0,
   oovTokenId: 1,
 };
 
+// Style untuk memperbaiki z-index dropdown yang di-portal agar selalu di atas
 const portalStyles = {
   menuPortal: (base) => ({ ...base, zIndex: 9999 }),
 };
 
 const Tracker = () => {
-  // --- STATE ---
+  // --- STATE UNTUK DATA ---
   const [foodItems, setFoodItems] = useState([]);
+
+  // --- STATE UNTUK FORM INPUT ---
   const [category, setCategory] = useState(null);
   const [name, setName] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [unit, setUnit] = useState(null);
   const [editingId, setEditingId] = useState(null);
+
+  // --- STATE UNTUK UI & FEEDBACK ---
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
+  const [loadingMessage, setLoadingMessage] = useState("Memuat model analisis...");
+  const [isLoading, setIsLoading] = useState(true);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
+
+  // --- STATE UNTUK MACHINE LEARNING ---
   const [mlModel, setMlModel] = useState(null);
   const [tokenizerWordIndex, setTokenizerWordIndex] = useState(null);
   const [scalerParams, setScalerParams] = useState(null);
-  const [isMlLoading, setIsMlLoading] = useState(true);
   const [mlError, setMlError] = useState(null);
-  const [itemToDelete, setItemToDelete] = useState(null); // Item yang akan dihapus
-  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false); // Modal untuk konfirmasi hapus semua
 
-  // --- DATA STATIS ---
+  // --- DATA STATIS UNTUK FORM ---
   const foodCategories = ["Karbohidrat", "Protein", "Sayur", "Buah"];
   const foodNames = {
     Karbohidrat: [
-      "nasi putih",
-      "nasi goreng",
-      "nasi kuning",
-      "nasi liwet",
-      "nasi timbel",
-      "nasi uduk",
+      "arem-arem",
+      "bakwan",
       "bihun goreng",
       "bubur ayam",
       "jagung rebus",
@@ -61,13 +66,21 @@ const Tracker = () => {
       "martabak manis",
       "mie ayam",
       "mie goreng",
+      "nasi",
+      "nasi bakar",
+      "nasi goreng",
+      "nasi kuning",
+      "nasi liwet",
+      "nasi timbel",
+      "nasi uduk",
       "roti bakar",
       "singkong goreng",
       "ubi rebus",
     ],
     Protein: [
-      "ayam goreng",
+      "ati ampela goreng",
       "ayam bakar",
+      "ayam goreng",
       "ayam kremes",
       "ayam penyet",
       "ayam pop",
@@ -108,7 +121,25 @@ const Tracker = () => {
       "tongseng kambing",
       "udang goreng",
     ],
-    Sayur: ["bayam bening", "cap cay", "oseng buncis", "pecel", "sayur asem", "sayur lodeh", "sayur sop", "terong balado", "tumis kangkung", "tumis pare", "tumis toge", "urap"],
+    Sayur: [
+      "bayam bening",
+      "cap cay",
+      "gado gado",
+      "karedok",
+      "ketoprak",
+      "lalapan",
+      "oseng buncis",
+      "pecel",
+      "plecing kangkung",
+      "sayur asem",
+      "sayur lodeh",
+      "sayur sop",
+      "terong balado",
+      "tumis kangkung",
+      "tumis pare",
+      "tumis toge",
+      "urap",
+    ],
     Buah: [
       "alpukat",
       "anggur",
@@ -134,7 +165,7 @@ const Tracker = () => {
       "strawberry",
     ],
   };
-  const units = ["Porsi", "Buah", "Butir", "Potong"];
+  const units = ["Porsi", "Buah", "Butir", "Potong", "Gelas"];
 
   // --- REFS ---
   const chartRef = useRef(null);
@@ -143,31 +174,72 @@ const Tracker = () => {
   // --- EFEK-EFEK ---
   useEffect(() => {
     const loadResources = async () => {
+      setIsLoading(true);
+
       try {
-        const [model, tokenizerResponse, scalerResponse, foodsResponse] = await Promise.all([tf.loadLayersModel(MODEL_URL), fetch(TOKENIZER_URL), fetch(SCALER_PARAMS_URL), fetch("http://localhost:9000/foods")]);
+        setLoadingMessage("Mempersiapkan model AI...");
+        const [model, tokenizerResponse, scalerResponse] = await Promise.all([tf.loadLayersModel(MODEL_URL), fetch(TOKENIZER_URL), fetch(SCALER_PARAMS_URL)]);
 
         setMlModel(model);
-
         const tokenizerData = await tokenizerResponse.json();
         let loadedWordIndex = tokenizerData.config?.word_index || tokenizerData.word_index;
         if (typeof loadedWordIndex === "string") loadedWordIndex = JSON.parse(loadedWordIndex);
         setTokenizerWordIndex(loadedWordIndex);
-
         setScalerParams(await scalerResponse.json());
-
-        if (foodsResponse.ok) {
-          const foodsResult = await foodsResponse.json();
-          if (foodsResult.status === "success") setFoodItems(foodsResult.data);
-        } else {
-          throw new Error("Gagal mengambil data makanan.");
-        }
+        console.log("✅ Model AI lokal berhasil dimuat.");
       } catch (error) {
-        console.error("❌ Failed to load resources:", error);
-        setMlError(`Gagal memuat resource: ${error.message}.`);
-        toast.error("Gagal memuat resource. Coba refresh halaman.");
-      } finally {
-        setIsMlLoading(false);
+        console.error("❌ Gagal memuat model AI lokal:", error);
+        setMlError(`Gagal memuat model AI: ${error.message}.`);
+        toast.error("Gagal memuat model AI. Silakan refresh.");
+        setIsLoading(false);
+        return;
       }
+
+      setLoadingMessage("Menghubungkan ke server...");
+
+      let success = false;
+      let attempts = 0;
+      const maxAttempts = 3;
+
+      while (!success && attempts < maxAttempts) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 60000); // Timeout 60 detik
+
+          const foodsResponse = await fetch("http://localhost:9000/foods", { signal: controller.signal });
+
+          clearTimeout(timeoutId);
+
+          if (foodsResponse.ok) {
+            const foodsResult = await foodsResponse.json();
+            if (foodsResult.status === "success") {
+              setFoodItems(foodsResult.data);
+              console.log("✅ Data makanan berhasil diambil dari server.");
+              success = true;
+              setMlError(null);
+            } else {
+              throw new Error(foodsResult.message || "Gagal mengambil data makanan.");
+            }
+          } else {
+            throw new Error(`Server merespon dengan status ${foodsResponse.status}`);
+          }
+        } catch (error) {
+          attempts++;
+          console.warn(`❌ Gagal terhubung ke server (Percobaan ke-${attempts}):`, error.name === "AbortError" ? "Timeout 60 detik" : error.message);
+          if (attempts >= maxAttempts) {
+            setMlError(`Tidak dapat terhubung ke server setelah ${maxAttempts} percobaan. Harap coba lagi nanti...`);
+            toast.error("Tidak dapat terhubung ke server.");
+          } else {
+            setLoadingMessage(
+              <>
+                Koneksi gagal, mencoba lagi... ({attempts}/{maxAttempts})
+              </>
+            );
+            await new Promise((res) => setTimeout(res, 5000));
+          }
+        }
+      }
+      setIsLoading(false);
     };
     loadResources();
   }, []);
@@ -184,7 +256,7 @@ const Tracker = () => {
 
   useEffect(() => {
     const performAnalysis = async () => {
-      if (foodItems.length > 0 && !isMlLoading && mlModel && tokenizerWordIndex && scalerParams) {
+      if (foodItems.length > 0 && !isLoading && mlModel) {
         setIsAnalyzing(true);
         await new Promise((resolve) => setTimeout(resolve, 50));
         await handleAnalysis();
@@ -194,7 +266,7 @@ const Tracker = () => {
       }
     };
     performAnalysis();
-  }, [foodItems, isMlLoading, mlModel, tokenizerWordIndex, scalerParams]);
+  }, [foodItems, isLoading, mlModel]);
 
   useEffect(() => {
     if (chartRef.current && analysisResult) {
@@ -225,9 +297,6 @@ const Tracker = () => {
         },
       });
     }
-    return () => {
-      if (chartInstance.current) chartInstance.current.destroy();
-    };
   }, [analysisResult]);
 
   // --- FUNGSI-FUNGSI MACHINE LEARNING ---
@@ -287,16 +356,16 @@ const Tracker = () => {
     else if (totalCalories < 1500 && totalCalories > 0) recommendation += " Pertimbangkan untuk menambah asupan kalori.";
 
     return {
-      totalCalories: parseFloat(totalCalories.toFixed(2)),
-      karbohidratGrams: parseFloat(totalKarbohidratGrams.toFixed(2)),
-      proteinGrams: parseFloat(totalProteinGrams.toFixed(2)),
-      lemakGrams: parseFloat(totalLemakGrams.toFixed(2)),
+      totalCalories: parseFloat(totalCalories.toFixed(0)),
+      karbohidratGrams: parseFloat(totalKarbohidratGrams.toFixed(1)),
+      proteinGrams: parseFloat(totalProteinGrams.toFixed(1)),
+      lemakGrams: parseFloat(totalLemakGrams.toFixed(1)),
       recommendation: recommendation,
     };
   };
 
   const handleAnalysis = async () => {
-    if (isMlLoading || !mlModel || !tokenizerWordIndex || !scalerParams) return;
+    if (isLoading || !mlModel || !tokenizerWordIndex || !scalerParams) return;
     if (foodItems.length === 0) return;
     try {
       const foodNamesForModel = foodItems.map((item) => item.name);
@@ -362,7 +431,7 @@ const Tracker = () => {
         }
       })
       .finally(() => {
-        setItemToDelete(null); // Tutup modal setelah selesai
+        setItemToDelete(null);
       });
 
     toast.promise(apiCall, {
@@ -376,7 +445,6 @@ const Tracker = () => {
     const deletePromises = foodItems.map((item) =>
       fetch(`http://localhost:9000/foods/${item.id}`, { method: "DELETE" }).then((response) => {
         if (!response.ok) {
-          // Jika satu saja gagal, seluruh proses akan dianggap error oleh toast
           throw new Error(`Gagal menghapus ${item.name}`);
         }
         return response.json();
@@ -384,7 +452,6 @@ const Tracker = () => {
     );
 
     const promiseCall = Promise.all(deletePromises).then(() => {
-      // Jika semua promise berhasil, baru update UI
       setFoodItems([]);
     });
 
@@ -394,7 +461,7 @@ const Tracker = () => {
       error: <b>Terjadi kesalahan saat menghapus data.</b>,
     });
 
-    setIsDeleteAllModalOpen(false); // Langsung tutup modal
+    setIsDeleteAllModalOpen(false);
   };
 
   const handleEdit = (food) => {
@@ -419,7 +486,7 @@ const Tracker = () => {
   const unitOptions = units.map((u) => ({ value: u, label: u }));
   const getCategoryColor = (cat) => ({ Karbohidrat: "bg-red-100 text-red-800", Protein: "bg-blue-100 text-blue-800", Sayur: "bg-green-100 text-green-800", Buah: "bg-yellow-100 text-yellow-800" }[cat] || "bg-gray-100 text-gray-800");
 
-  if (isMlLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
         <div className="text-center">
@@ -427,18 +494,18 @@ const Tracker = () => {
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <h1 className="text-2xl font-semibold text-gray-700">Memuat Model Analisis...</h1>
-          <p className="text-gray-500">Harap tunggu sebentar, ini hanya butuh beberapa detik.</p>
+          <h1 className="text-2xl font-semibold text-gray-700">{loadingMessage}</h1>
+          <p className="text-gray-500">Harap tunggu sebentar.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6 pt-8 md:pt-29">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6 pt-8 md:pt-35">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Food Tracker</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Food Tracker Cerdas</h1>
           <p className="text-gray-600">Pantau nutrisi harian Anda dengan analisis cerdas secara real-time.</p>
           {mlError && <p className="mt-2 p-2 text-center text-red-800 bg-red-100 rounded-lg">{mlError}</p>}
         </div>
@@ -466,16 +533,7 @@ const Tracker = () => {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Nama Makanan</label>
-              <Select
-                menuPortalTarget={document.body}
-                styles={portalStyles}
-                options={nameOptions}
-                value={name}
-                onChange={setName}
-                // --- PERBAIKAN DI SINI ---
-                placeholder={category ? "Cari & pilih makanan..." : "Pilih kategori dahulu..."}
-                isDisabled={!category}
-              />
+              <Select menuPortalTarget={document.body} styles={portalStyles} options={nameOptions} value={name} onChange={setName} placeholder={category ? "Cari & pilih makanan..." : "Pilih kategori dahulu..."} isDisabled={!category} />
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Jumlah</label>
@@ -509,22 +567,21 @@ const Tracker = () => {
               <div className="w-2 h-8 bg-gradient-to-b from-green-500 to-teal-500 rounded-full mr-4"></div>
               <h2 className="text-2xl font-bold text-gray-800">Daftar Makanan Dikonsumsi</h2>
             </div>
-            {/* Tombol Hapus Semua (hanya muncul jika ada item) */}
             {foodItems.length > 0 && (
               <button onClick={() => setIsDeleteAllModalOpen(true)} className="px-4 py-2 text-sm font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors" title="Hapus semua makanan">
                 Hapus Semua
               </button>
             )}
-            {isAnalyzing && (
-              <div className="flex items-center">
-                <svg className="animate-spin h-5 w-5 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span className="ml-2 text-sm text-gray-500">Menganalisis ulang...</span>
-              </div>
-            )}
           </div>
+          {isAnalyzing && !isLoading && (
+            <div className="flex items-center justify-center mb-4">
+              <svg className="animate-spin h-5 w-5 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span className="ml-2 text-sm text-gray-500">Menganalisis ulang...</span>
+            </div>
+          )}
           {foodItems.length === 0 ? (
             <div className="text-center py-12">
               <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
@@ -640,7 +697,7 @@ const Tracker = () => {
         </div>
       </div>
 
-      {/* --- MODAL KONFIRMASI HAPUS --- */}
+      {/* --- MODAL KONFIRMASI HAPUS SATU ITEM --- */}
       {itemToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
           <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm text-center transform transition-all scale-100">
@@ -659,6 +716,7 @@ const Tracker = () => {
           </div>
         </div>
       )}
+
       {/* --- MODAL KONFIRMASI HAPUS SEMUA --- */}
       {isDeleteAllModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
@@ -669,10 +727,7 @@ const Tracker = () => {
               <button onClick={() => setIsDeleteAllModalOpen(false)} className="px-6 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 font-semibold transition-colors">
                 Batal
               </button>
-              <button
-                onClick={handleDeleteAll} // Fungsi ini akan kita buat selanjutnya
-                className="px-6 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-colors"
-              >
+              <button onClick={handleDeleteAll} className="px-6 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold transition-colors">
                 Ya, Hapus Semua
               </button>
             </div>
