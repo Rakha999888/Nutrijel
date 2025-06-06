@@ -165,7 +165,7 @@ const Tracker = () => {
       "strawberry",
     ],
   };
-  const units = ["Porsi", "Buah", "Butir", "Potong", "Gelas"];
+  const units = ["Porsi", "Buah", "Butir", "Potong"];
 
   // --- REFS ---
   const chartRef = useRef(null);
