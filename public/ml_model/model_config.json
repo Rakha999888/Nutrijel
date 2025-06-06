@@ -1,0 +1,12 @@
+{
+  "max_length": 8,
+  "vocab_size": 2475,
+  "target_cols": [
+    "kalori",
+    "protein",
+    "lemak",
+    "karbohidrat"
+  ],
+  "max_words": 5000,
+  "embedding_dim": 64
+}
