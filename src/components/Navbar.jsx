@@ -106,16 +106,18 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-100 via-yellow-50 to-orange-50 shadow-lg z-50 font-sans">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-        <div className="flex items-center">
-          {/* Logo */}
+        {/* Logo - Pindah ke kiri */}
+        <div className="flex-shrink-0">
           <img 
             src="/assets/image/logo.png" 
             alt="NutriCheck Logo" 
             className="h-15 w-15 md:h-20 md:w-20 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg" 
           />
-          
-          {/* Desktop Navigation with GooeyNav */}
-          <div className="hidden md:block ml-8">
+        </div>
+        
+        {/* Desktop Navigation with GooeyNav - Di tengah */}
+        <div className="hidden md:flex flex-1 justify-center">
+          <div className="mx-auto">
             <GooeyNav
               items={navLinks.map(link => ({
                 ...link,
