@@ -1,6 +1,18 @@
 // src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged, 
+  updateProfile, 
+  updateEmail as updateUserEmail,
+  updatePassword as updateUserPassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  signInWithPopup, 
+  GoogleAuthProvider 
+} from "firebase/auth";
 import { auth } from "../firebase/config";
 
 const AuthContext = createContext();
@@ -41,6 +53,66 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
+  // Update user profile
+  async function updateUserProfile(displayName, photoURL) {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error('No user is currently logged in');
+      
+      await updateProfile(user, {
+        displayName: displayName || user.displayName,
+        photoURL: photoURL || user.photoURL
+      });
+      
+      // Update current user state
+      setCurrentUser({
+        ...user,
+        displayName: displayName || user.displayName,
+        photoURL: photoURL || user.photoURL
+      });
+      
+      return true;
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  }
+
+  // Update email
+  async function updateEmail(newEmail) {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error('No user is currently logged in');
+      
+      await updateUserEmail(user, newEmail);
+      
+      // Update current user state
+      setCurrentUser({
+        ...user,
+        email: newEmail
+      });
+      
+      return true;
+    } catch (error) {
+      console.error("Error updating email:", error);
+      throw error;
+    }
+  }
+
+  // Update password
+  async function updatePassword(newPassword) {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error('No user is currently logged in');
+      
+      await updateUserPassword(user, newPassword);
+      return true;
+    } catch (error) {
+      console.error("Error updating password:", error);
+      throw error;
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -55,7 +127,21 @@ export function AuthProvider({ children }) {
     login,
     loginWithGoogle,
     logout,
+    updateProfile: updateUserProfile,
+    updateEmail,
+    updatePassword
   };
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{
+      currentUser, 
+      signup, 
+      login, 
+      logout, 
+      loginWithGoogle, 
+      updateProfile: updateUserProfile 
+    }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
