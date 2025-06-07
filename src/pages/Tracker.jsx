@@ -52,75 +52,41 @@ const Tracker = () => {
   // --- DATA STATIS UNTUK FORM ---
   const foodCategories = ["Karbohidrat", "Protein", "Sayur", "Buah"];
   const foodNames = {
-    Karbohidrat: [
-      "arem-arem",
-      "bakwan",
-      "bihun goreng",
-      "bubur ayam",
-      "jagung rebus",
-      "kentang goreng",
-      "ketupat",
-      "kwetiau goreng",
-      "lemper",
-      "lontong",
-      "martabak manis",
-      "mie ayam",
-      "mie goreng",
-      "nasi",
-      "nasi bakar",
-      "nasi goreng",
-      "nasi kuning",
-      "nasi liwet",
-      "nasi timbel",
-      "nasi uduk",
-      "roti bakar",
-      "singkong goreng",
-      "ubi rebus",
-    ],
+    // Karbohidrat: Fokus pada sumber karbohidrat kompleks dan yang tidak digoreng.
+    Karbohidrat: ["nasi putih", "nasi timbel", "nasi jagung", "nasi merah", "bubur ayam", "bubur kacang hijau", "jagung rebus", "kentang rebus", "ketupat", "lontong", "singkong rebus", "talas rebus", "ubi jalar rebus", "ubi ungu rebus"],
     Protein: [
-      "ati ampela goreng",
-      "ayam bakar",
       "ayam goreng",
-      "ayam kremes",
-      "ayam penyet",
+      "ayam bakar",
+      "ayam kukus",
       "ayam pop",
-      "bakso",
-      "batagor",
-      "bebek goreng",
-      "cumi goreng tepung",
-      "dendeng balado",
-      "empal gepuk",
-      "gulai ayam",
-      "gulai ikan",
-      "gulai tunjang",
-      "iga bakar",
-      "ikan asam manis",
+      "ayam suwir",
+      "gindara steak",
       "ikan bakar",
-      "ikan goreng",
-      "ikan kembung balado",
-      "lele goreng",
-      "opor ayam",
-      "paru goreng",
+      "ikan kembung pesmol",
+      "ikan kukus",
+      "ikan mas arsik",
+      "pepes ayam",
       "pepes ikan",
-      "perkedel",
-      "rendang daging",
+      "pepes jamur",
+      "pepes tahu",
+      "pepes tempe",
       "sate ayam",
-      "sate kambing",
-      "sate lilit",
-      "sate padang",
-      "semur daging",
-      "siomay",
-      "soto ayam",
-      "soto betawi",
+      "sate lilit ikan",
+      "semur tahu tempe",
+      "sop ikan",
+      "soto ayam bening",
       "tahu bacem",
-      "tahu goreng",
+      "tahu panggang",
+      "telur",
       "telur balado",
-      "telur dadar",
+      "telur pindang",
+      "telur rebus",
       "tempe bacem",
-      "tempe goreng",
-      "tongseng kambing",
-      "udang goreng",
+      "tempe panggang",
+      "tuna balado",
+      "udang rebus",
     ],
+
     Sayur: [
       "bayam bening",
       "cap cay",
@@ -351,9 +317,15 @@ const Tracker = () => {
       totalKarbohidratGrams += karbo_descaled * quantityFactor;
     });
 
-    let recommendation = "Analisis nutrisi selesai.";
-    if (totalCalories > 2500) recommendation += " Asupan kalori Anda cukup tinggi hari ini.";
-    else if (totalCalories < 1500 && totalCalories > 0) recommendation += " Pertimbangkan untuk menambah asupan kalori.";
+    let recommendation = "";
+
+    if (totalCalories > 2500) {
+      recommendation = "Asupan kalori Anda hari ini tergolong tinggi. Perhatikan keseimbangan antara energi yang masuk dengan energi yang digunakan melalui aktivitas fisik.";
+    } else if (totalCalories < 1500 && totalCalories > 0) {
+      recommendation = "Asupan kalori Anda hari ini tergolong rendah. Pastikan tubuh mendapatkan energi yang cukup untuk beraktivitas dengan optimal.";
+    } else {
+      recommendation = "Analisis nutrisi selesai. Pertahankan pola makan seimbang dengan variasi makanan untuk memenuhi kebutuhan nutrisi harian Anda.";
+    }
 
     return {
       totalCalories: parseFloat(totalCalories.toFixed(0)),
@@ -541,7 +513,7 @@ const Tracker = () => {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Satuan</label>
-              <Select menuPortalTarget={document.body} styles={portalStyles} options={unitOptions} value={unit} onChange={setUnit} placeholder="Pilih satuan..." />
+              <input type="text" readOnly value={unit?.value || ""} placeholder="Otomatis" className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 cursor-default focus:outline-none" />
             </div>
           </div>
           <div className="flex space-x-4 mt-8">
@@ -699,7 +671,7 @@ const Tracker = () => {
 
       {/* --- MODAL KONFIRMASI HAPUS SATU ITEM --- */}
       {itemToDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 transition-opacity duration-300">
           <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm text-center transform transition-all scale-100">
             <h3 className="text-xl font-bold mb-4">Anda Yakin?</h3>
             <p className="text-gray-600 mb-8">
@@ -719,7 +691,7 @@ const Tracker = () => {
 
       {/* --- MODAL KONFIRMASI HAPUS SEMUA --- */}
       {isDeleteAllModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 transition-opacity duration-300">
           <div className="bg-white rounded-2xl p-8 shadow-xl max-w-sm text-center transform transition-all scale-100">
             <h3 className="text-xl font-bold mb-4">Hapus Semua Makanan?</h3>
             <p className="text-gray-600 mb-8">Anda yakin ingin menghapus seluruh daftar makanan? Aksi ini tidak dapat dibatalkan.</p>
