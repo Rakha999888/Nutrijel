@@ -1,53 +1,35 @@
 // src/pages/Home.jsx
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/index.css";
-import LoginAlert from "../components/LoginAlert";
 
 const Home = () => {
   const { currentUser } = useAuth();
-  const [showLoginAlert, setShowLoginAlert] = useState(false);
-  const navigate = useNavigate();
-  
-  const handleFeatureClick = (e, path) => {
-    if (!currentUser) {
-      e.preventDefault();
-      setShowLoginAlert(true);
-    } else if (path) {
-      navigate(path);
-    }
-  };
 
   const features = [
     {
       icon: "/assets/image/features-icon-1.png",
       title: "Food",
       description: "Complete information about food nutrition and diet recommendations according to your needs.",
-      alt: "Food Icon",
-      path: "/food"
+      alt: "Food Icon"
     },
     {
       icon: "/assets/image/features-icon-2.png", 
-      title: "Tracker",
+      title: "Track",
       description: "Track your health progress with easy-to-use and informative tracking tools.",
-      alt: "Track Icon",
-      path: "/tracker"
+      alt: "Track Icon"
     },
     {
       icon: "/assets/image/features-icon-3.png",
       title: "Education", 
       description: "Access a variety of articles, videos and courses on health and healthy lifestyle.",
-      alt: "Education Icon",
-      path: "/education"
+      alt: "Education Icon"
     }
   ];
 
-  const FeatureCard = ({ icon, title, description, alt, path }) => (
-    <div 
-      className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-      onClick={(e) => handleFeatureClick(e, path)}
-    >
+  const FeatureCard = ({ icon, title, description, alt }) => (
+    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
       <div className="flex items-center mb-6">
         <div className="bg-gradient-to-r from-[#E8F5E9] to-[#C8E6C9] p-4 rounded-xl mr-4">
           <img 
@@ -84,11 +66,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50 relative">
-      <LoginAlert 
-        show={showLoginAlert} 
-        onClose={() => setShowLoginAlert(false)} 
-      />
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
       {/* Floating background elements */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-0">
         <div className="absolute top-20 left-10 w-40 h-40 bg-green-100 rounded-full filter blur-3xl opacity-20"></div>
