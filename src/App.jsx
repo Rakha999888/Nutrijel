@@ -20,6 +20,7 @@ import SignUp from "./pages/Register.jsx";
 import ProfileSettings from "./pages/setting/ProfileSettings";
 import Settings from "./pages/setting/Settings";
 import JellBot from "./pages/JellBot";
+import FoodMap from "./pages/FoodMap";
 
 // Komponen Layout yang akan mengatur tampilan Navbar dan Footer
 const Layout = ({ children }) => {
@@ -124,6 +125,10 @@ function App() {
               <Layout>
                 <Food />
               </Layout>
+            } />
+            
+            <Route path="/food-map" element={
+              <FoodMap />
             } />
             
             <Route path="/aboutus" element={

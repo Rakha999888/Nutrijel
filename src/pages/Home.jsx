@@ -1,40 +1,66 @@
 // src/pages/Home.jsx
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/index.css";
+import LoginAlert from "../components/LoginAlert";
 
 const Home = () => {
   const { currentUser } = useAuth();
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleFeatureClick = (e, path) => {
+    if (!currentUser) {
+      e.preventDefault();
+      setShowLoginAlert(true);
+    } else if (path) {
+      navigate(path);
+    }
+  };
 
   const features = [
     {
       icon: "/assets/image/features-icon-1.png",
       title: "Food",
       description: "Complete information about food nutrition and diet recommendations according to your needs.",
-      alt: "Food Icon"
+      alt: "Food Icon",
+      path: "/food"
     },
     {
       icon: "/assets/image/features-icon-2.png", 
-      title: "Track",
+      title: "Tracker",
       description: "Track your health progress with easy-to-use and informative tracking tools.",
-      alt: "Track Icon"
+      alt: "Track Icon",
+      path: "/tracker"
     },
     {
       icon: "/assets/image/features-icon-3.png",
       title: "Education", 
       description: "Access a variety of articles, videos and courses on health and healthy lifestyle.",
-      alt: "Education Icon"
+      alt: "Education Icon",
+      path: "/education"
     }
   ];
 
-  const FeatureCard = ({ icon, title, description, alt }) => (
-    <div className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100">
+  const FeatureCard = ({ icon, title, description, alt, path }) => (
+    <div 
+      className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+      onClick={(e) => handleFeatureClick(e, path)}
+    >
       <div className="flex items-center mb-6">
-        <div className="bg-gradient-to-r from-green-100 to-green-50 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
-          <img src={icon} alt={alt} className="h-12 w-12 object-contain" />
+        <div className="bg-gradient-to-r from-[#E8F5E9] to-[#C8E6C9] p-4 rounded-xl mr-4">
+          <img 
+            src={icon} 
+            alt={alt} 
+            className="h-12 w-12 object-contain" 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://via.placeholder.com/48?text=' + encodeURIComponent(title[0]);
+            }}
+          />
         </div>
-        <h3 className="text-xl font-bold text-gray-800 group-hover:text-[#196D0D] transition-colors">
+        <h3 className="text-xl font-bold text-gray-800">
           {title}
         </h3>
       </div>
@@ -58,7 +84,17 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-yellow-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50 relative">
+      <LoginAlert 
+        show={showLoginAlert} 
+        onClose={() => setShowLoginAlert(false)} 
+      />
+      {/* Floating background elements */}
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div className="absolute top-20 left-10 w-40 h-40 bg-green-100 rounded-full filter blur-3xl opacity-20"></div>
+        <div className="absolute bottom-20 right-10 w-60 h-60 bg-yellow-100 rounded-full filter blur-3xl opacity-20"></div>
+        <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-orange-100 rounded-full filter blur-3xl opacity-10"></div>
+      </div>
       {/* Hero Section */}
       <section className="py-16 md:py-25">
         <div className="flex flex-col md:flex-row justify-between items-center rounded-lg px-4">
@@ -78,19 +114,41 @@ const Home = () => {
             <div className="mt-6 flex flex-col md:flex-row justify-center gap-4">
               {currentUser ? (
                 <>
-                  <Link to="/tracker" className="bg-[#196D0D] text-white px-8 py-3 rounded-4xl text-xl hover:bg-[#155d07] transition-colors">
-                    Track Progress
+                  <Link 
+                    to="/tracker" 
+                    className="relative overflow-hidden bg-gradient-to-r from-[#196D0D] to-emerald-600 text-white px-8 py-3 rounded-4xl text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 hover:from-[#155d07] hover:to-[#0f4a05]"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      Track Progress
+                    </span>
                   </Link>
-                  <Link to="/food" className="bg-transparent border-2 border-[#196D0D] text-[#196D0D] px-8 py-3 rounded-4xl text-xl hover:bg-[#196D0D] hover:text-white transition-colors">
-                    Explore Food
+                  <Link 
+                    to="/food" 
+                    className="btn-pulse relative overflow-hidden bg-white/90 border-2 border-[#196D0D] text-[#196D0D] px-8 py-3 rounded-4xl text-xl font-medium transition-all duration-300 hover:bg-[#196D0D] hover:text-white hover:shadow-lg"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.7 2.7 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h3m3 0h3m-9 3a4 4 0 00-4 4v9.5a2.5 2.5 0 002.5 2.5h11a2.5 2.5 0 002.5-2.5V10a4 4 0 00-4-4H9z" />
+                      </svg>
+                      Explore Food
+                    </span>
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link to="/signup" className="bg-[#196D0D] text-white px-8 py-3 rounded-4xl text-xl hover:bg-[#155d07] transition-colors">
+                  <Link 
+                    to="/signup" 
+                    className="btn-float bg-[#196D0D] text-white px-8 py-3 rounded-4xl text-xl hover:bg-[#155d07] transition-colors shadow-lg"
+                  >
                     Start Now
                   </Link>
-                  <Link to="/education" className="bg-transparent border-2 border-[#196D0D] text-[#196D0D] px-8 py-3 rounded-4xl text-xl hover:bg-[#196D0D] hover:text-white transition-colors">
+                  <Link 
+                    to="/education" 
+                    className="btn-shake btn-border bg-transparent border-2 border-[#196D0D] text-[#196D0D] px-8 py-3 rounded-4xl text-xl hover:bg-[#196D0D] hover:text-white transition-colors"
+                  >
                     See More
                   </Link>
                 </>
@@ -117,7 +175,9 @@ const Home = () => {
           </div>
           
           {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
+          <div className="relative z-10 grid md:grid-cols-3 gap-8 mb-20">
+          {/* Connecting line */}
+          <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-green-200 via-yellow-200 to-orange-200 -z-10"></div>
             {features.map((feature, index) => (
               <FeatureCard 
                 key={index}

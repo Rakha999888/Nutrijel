@@ -58,16 +58,41 @@ const SignUp = () => {
       setError("");
       setLoading(true);
       await loginWithGoogle();
+      // Set flag isAuthenticated di localStorage
+      localStorage.setItem("isAuthenticated", "true");
+      // Hapus flag isExploring jika ada
+      localStorage.removeItem("isExploring");
       navigate("/home");
     } catch (error) {
-      setError("Failed to sign up with Google. Please try again.");
+      setError("Gagal mendaftar dengan Google. Silakan coba lagi.");
       console.error("Google signup error:", error);
     }
     setLoading(false);
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen flex flex-col md:flex-row relative">
+      {/* Back Button */}
+      <button 
+        onClick={() => window.history.back()}
+        className="fixed md:absolute top-4 left-4 md:top-6 md:left-6 flex items-center text-[#196D0D] hover:text-[#0f4a0a] transition-colors z-10 bg-white bg-opacity-80 backdrop-blur-sm rounded-full p-2 shadow-md"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-6 w-6" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M15 19l-7-7 7-7" 
+          />
+        </svg>
+      </button>
+      
       {/* Left Side - Sign Up Form */}
       <div className="w-full md:w-1/2 bg-white flex items-center justify-center p-8 py-16 md:py-8">
         <div className="w-full max-w-md">
