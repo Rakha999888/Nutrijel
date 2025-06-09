@@ -119,24 +119,6 @@ const Education = () => {
       thumbnail: "/assets/image/edu-thumbnail-5.png",
       embedId: "fqhYBTg73fw"
     },
-    {
-      id: 6,
-      title: "Balanced Nutrition for Daily Life",
-      thumbnail: "/assets/image/edu-thumbnail-5.png",
-      embedId: "fqhYBTg73fw"
-    },
-    {
-      id: 7,
-      title: "Understanding Macronutrients",
-      thumbnail: "/assets/image/edu-thumbnail-5.png",
-      embedId: "fqhYBTg73fw"
-    },
-    {
-      id: 8,
-      title: "Healthy Meal Planning Tips",
-      thumbnail: "/assets/image/edu-thumbnail-5.png",
-      embedId: "fqhYBTg73fw"
-    }
   ];
 
   // Dummy articles data with full content
