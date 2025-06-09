@@ -104,7 +104,7 @@ nutricheck/
 ## 👥 Team
 
 - **Muhammad Rakha Akbar** - Frontend Developer & Backend
-- **Rio Fauzi** - Frontend Developer & Backend
+- **Rio Fauzi Febrian** - Frontend Developer & Backend
 - **Nabila Huwaida** - Frontend & Backend
 - **Octa Dana Rizky Lubis** - Machine Learning
 - **Bagus Darmawan** - Machine Learning
