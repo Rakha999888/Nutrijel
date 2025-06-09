@@ -37,10 +37,10 @@ const LandingPage = () => {
 
         {/* Judul dan Deskripsi */}
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-          Platform lengkap untuk tracking makanan dan diet Anda sehari-hari
+          Complete platform for tracking your daily food and diet
         </h1>
         <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-          Jelajahi fitur tracking makanan dan diet modern kami. Pilih salah satu untuk memulai!
+          Explore our modern food and diet tracking features. Choose one to get started!
         </p>
 
         {/* Tombol Pilihan */}
@@ -49,20 +49,20 @@ const LandingPage = () => {
             onClick={handleExplore}
             className="w-full md:w-auto bg-white border-2 border-green-500 text-green-600 hover:bg-green-50 hover:border-green-600 px-8 py-4 rounded-xl font-medium text-lg transition-colors duration-300 shadow-md hover:shadow-lg"
           >
-            Jelajahi Fitur Kami
+            Explore Features
           </button>
           
           <Link 
             to="/login"
             className="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-medium text-lg transition-colors duration-300 shadow-md hover:shadow-lg"
           >
-            Mulai Tracking
+            Start Tracking
           </Link>
         </div>
 
         {/* Teks Kecil di Bawah */}
         <p className="mt-8 text-gray-500 text-sm">
-          Dengan memilih "Mulai Tracking", Anda menyetujui ketentuan layanan kami
+          By selecting "Start Tracking", you agree to our terms of service
         </p>
       </div>
     </div>

@@ -343,7 +343,7 @@ const FoodMap = () => {
                   value={searchQuery}
                   onChange={handleSearchChange}
                   className="block w-full pl-10 pr-3 py-3 border border-green-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Cari makanan..."
+                  placeholder="Search food..."
                 />
                 {searchQuery && (
                   <button
@@ -381,7 +381,7 @@ const FoodMap = () => {
               className="w-full sm:w-auto flex items-center justify-center gap-3 bg-[#196D0D] hover:bg-green-700 text-white px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
             >
               <PlusCircle size={20} />
-              <span className="font-medium">Tambah Makanan</span>
+              <span className="font-medium">Add Food</span>
             </button>
           </div>
           
@@ -535,7 +535,7 @@ const FoodMap = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] p-4">
           <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-800">Tambah Makanan Baru</h2>
+              <h2 className="text-xl font-bold text-gray-800">Add New Food</h2>
               <button 
                 onClick={toggleAddForm}
                 className="text-gray-500 hover:text-gray-700"

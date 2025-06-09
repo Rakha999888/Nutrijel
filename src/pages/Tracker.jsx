@@ -486,7 +486,7 @@ const Tracker = () => {
         <div className="bg-white backdrop-blur-sm bg-opacity-90 shadow-xl rounded-2xl p-8 mb-8 border border-gray-100">
           <div className="flex items-center mb-6">
             <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-4"></div>
-            <h2 className="text-2xl font-bold text-gray-800">{editingId ? "Edit Makanan" : "Tambah Makanan"}</h2>
+            <h2 className="text-2xl font-bold text-gray-800">{editingId ? "Edit Food" : "Add Food"}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div>
