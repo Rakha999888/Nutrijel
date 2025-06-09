@@ -172,7 +172,7 @@ const Tracker = () => {
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 60000); // Timeout 60 detik
 
-          const foodsResponse = await fetch("http://localhost:9000/foods", { signal: controller.signal });
+          const foodsResponse = await fetch("https://nutrijelfork-production.up.railway.app/foods", { signal: controller.signal });
 
           clearTimeout(timeoutId);
 
@@ -363,7 +363,7 @@ const Tracker = () => {
 
     const apiCall = async () => {
       let response;
-      const url = editingId ? `http://localhost:9000/foods/${editingId}` : "http://localhost:9000/foods";
+      const url = editingId ? `https://nutrijelfork-production.up.railway.app/foods/${editingId}` : "https://nutrijelfork-production.up.railway.app/foods";
       const method = editingId ? "PUT" : "POST";
       response = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(foodData) });
       if (!response.ok) throw new Error(`Server error ${response.status}`);
@@ -390,7 +390,7 @@ const Tracker = () => {
 
   const confirmDelete = () => {
     if (!itemToDelete) return;
-    const apiCall = fetch(`http://localhost:9000/foods/${itemToDelete.id}`, { method: "DELETE" })
+    const apiCall = fetch(`https://nutrijelfork-production.up.railway.app/foods/${itemToDelete.id}`, { method: "DELETE" })
       .then((res) => {
         if (!res.ok) throw new Error("Gagal menghapus di server.");
         return res.json();
@@ -415,7 +415,7 @@ const Tracker = () => {
 
   const handleDeleteAll = () => {
     const deletePromises = foodItems.map((item) =>
-      fetch(`http://localhost:9000/foods/${item.id}`, { method: "DELETE" }).then((response) => {
+      fetch(`https://nutrijelfork-production.up.railway.app/foods/${item.id}`, { method: "DELETE" }).then((response) => {
         if (!response.ok) {
           throw new Error(`Gagal menghapus ${item.name}`);
         }
