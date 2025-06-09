@@ -282,17 +282,17 @@ const Food = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-yellow-50 to-orange-50">
       {/* Hero section */}
-      <section className="pt-12 sm:pt-16 lg:pt-25">
+      <section className="pt-20 sm:pt-22 lg:pt-25">
         <div className="flex flex-col lg:flex-row items-center justify-between p-4 sm:p-6 lg:p-8 gap-6 lg:gap-0">
           <div className="bg-[#CFEBD1] justify-center m-2 sm:m-3 lg:m-5 border-t-4 border-r-4 border-b-4 border-l-4 border-[#196D0D] rounded-br-full rounded-tr-full p-6 sm:p-8 lg:p-10 w-full lg:w-1/2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold m-1 sm:m-2 tracking-tighter leading-normal">
               Let's <span className="text-[#196D0D]">Take Care</span><br />About Your Health
             </h1>
             <p className="text-gray-700 text-base sm:text-lg md:text-xl lg:text-2xl m-1 sm:m-2">
-              Simplifies your journey to balanced nutrition with<br className="hidden sm:block" />
-              instant food analysis, AI-powered insights. Track<br className="hidden sm:block" />
-              your meals and discover smarter eating habits.<br className="hidden sm:block" />
-              Start your health transformation today,<br className="hidden sm:block" />
+              Simplifies your journey to balanced nutrition with
+              instant food analysis, AI-powered insights. Track
+              your meals and discover smarter eating habits.
+              Start your health transformation today,
               completely free!
             </p>
           </div>

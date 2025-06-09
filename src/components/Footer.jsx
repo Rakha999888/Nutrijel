@@ -41,7 +41,7 @@ const Footer = () => {
             <nav className="grid grid-cols-2 gap-1">
               <div className="space-y-1">
                 {[
-                  { name: 'Home', href: '/' },
+                  { name: 'Home', href: '/home' },
                   { name: 'Food', href: '/food' },
                   { name: 'Nutrition Tracker', href: '/tracker' }
                 ].map((link) => (
@@ -95,12 +95,7 @@ const Footer = () => {
               <p className="text-sm text-gray-600">
                 © 2025 <span className="font-semibold">Nutrijel</span>. All rights reserved.
               </p>
-              <div className="hidden md:flex items-center space-x-4 text-xs text-gray-500">              
-                <span>•</span>
-                <a href="#" className="hover:text-green-600 transition-colors">Visi & Misi</a>
-                <span>•</span>
-                <a href="#" className="hover:text-green-600 transition-colors">Our Team</a>
-              </div>
+              
             </div>
             
             <div className="text-sm text-gray-600 font-medium">

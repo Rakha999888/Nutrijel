@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
@@ -19,6 +19,8 @@ const Education = () => {
   const navigate = useNavigate();
   const { articleId } = useParams();
   const location = useLocation();
+  const videoSectionRef = useRef(null);
+
 
   // Handle article selection based on URL
   useEffect(() => {
@@ -263,7 +265,10 @@ const Education = () => {
                     Explore articles and videos to learn more about how nutrition impacts your{' '}
                     <span className="text-[#196D0D] font-semibold">health</span> and <span className="text-[#196D0D] font-semibold">well-being.</span>
                   </p>
-                  <button className="group relative inline-flex items-center gap-2 bg-transparent border-2 border-[#196D0D] text-[#196D0D] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#196D0D] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                  <button 
+                  onClick={() => videoSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  className="group relative inline-flex items-center gap-2 bg-transparent border-2 border-[#196D0D] text-[#196D0D] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#196D0D] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
                     <span>See More</span>
                     <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -311,7 +316,7 @@ const Education = () => {
       </section>
 
       {/* Video & Article Section */}
-      <section className="py-16 bg-gradient-to-br from-[#FDFAF6] to-white">
+      <section ref={videoSectionRef} className="py-16 bg-gradient-to-br from-[#FDFAF6] to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-center mb-12">

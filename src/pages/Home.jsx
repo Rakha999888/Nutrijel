@@ -74,7 +74,7 @@ const Home = () => {
         <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-orange-100 rounded-full filter blur-3xl opacity-10"></div>
       </div>
       {/* Hero Section */}
-      <section className="py-16 md:py-25">
+      <section className="py-25 md:py-30">
         <div className="flex flex-col md:flex-row justify-between items-center rounded-lg px-4">
           <div className="w-full md:w-1/2 text-center text-[#333] mb-8 md:mb-0 md:ml-10">
             <h1 className="text-3xl md:text-5xl font-bold text-[#1e3c3f] tracking-tighter leading-normal">
