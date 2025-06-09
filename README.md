@@ -16,15 +16,15 @@ Try our ML model: [Google Colab](https://colab.research.google.com/drive/1rnpUww
 ## 🛠️ Tech Stack
 
 - **Frontend**
+
   - React.js
   - TailwindCSS
   - Chart.js
   - Leaflet.js
 
-- **Backend & Database**
+- **Backend**
+
   - Firebase Authentication
-  - Cloud Firestore
-  - Firebase Storage
 
 - **Machine Learning**
   - TensorFlow.js
@@ -34,18 +34,21 @@ Try our ML model: [Google Colab](https://colab.research.google.com/drive/1rnpUww
 ## 📦 Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/yourusername/nutricheck.git
 cd nutricheck
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**
-Create a `.env` file in the root directory:
+   Create a `.env` file in the root directory:
+
 ```env
 REACT_APP_FIREBASE_API_KEY=your_api_key
 REACT_APP_FIREBASE_AUTH_DOMAIN=your_domain
@@ -56,6 +59,7 @@ REACT_APP_FIREBASE_APP_ID=your_app_id
 ```
 
 4. **Start the development server**
+
 ```bash
 npm run dev
 ```
@@ -79,16 +83,19 @@ nutricheck/
 ## 🌟 Key Features In Detail
 
 ### 🤖 Machine Learning Integration
+
 - Food nutrition prediction
 - Custom dataset with Indonesian foods
 - Real-time analysis using TensorFlow.js
 
 ### 🗺️ Food Map
+
 - Interactive map of Indonesian traditional foods
 - Regional food discovery
 - Nutritional information for local dishes
 
 ### 📊 Nutrition Tracking
+
 - Daily calorie tracking
 - Macro and micronutrient analysis
 - Progress visualization
@@ -96,7 +103,8 @@ nutricheck/
 
 ## 👥 Team
 
-- **Rio Fauzi** - Frontend Developer
+- **Muhammad Rakha Akbar** - Frontend Developer & Backend
+- **Rio Fauzi** - Frontend Developer & Backend
 - **Nabila Huwaida** - Frontend & Backend
 - **Octa Dana Rizky Lubis** - Machine Learning
 - **Bagus Darmawan** - Machine Learning
@@ -117,17 +125,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Dataset sources and references
-- UI design inspiration 
+- UI design inspiration
 - Open-source libraries and tools
 - Machine learning model architecture references
 
 ## 📞 Contact
 
 For any queries or support, please reach out to:
+
 - Nabila Huwaida - [LinkedIn](https://www.linkedin.com/in/nabilahdaa)
 - Rio Fauzi - [LinkedIn](https://www.linkedin.com/in/riofauzifebrian)
 
 ---
+
 <div align="center">
 Made with ❤️ by the Nutricheck Team
 </div>
