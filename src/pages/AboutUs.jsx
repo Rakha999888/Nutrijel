@@ -252,9 +252,9 @@ const AboutUs = () => {
       role: "Front-End & Back-end",
       university: "Universitas Mikroskil",
       imageSrc: "/assets/image/foto-rakha.png",
-      githubUrl: "https://github.com/yourgithub",
-      discordUrl: "https://discord.com/users/yourdiscord",
-      linkedinUrl: "https://linkedin.com/in/yourlinkedin"
+      githubUrl: "https://github.com/Rakha999888",
+      discordUrl: " https://discord.gg/7Pz2n4b4",
+      linkedinUrl: " https://www.linkedin.com/in/muhammad-rakha-akbar/"
     },
     {
       name: "Rio Fauzi Febrian",
@@ -297,9 +297,9 @@ const AboutUs = () => {
       role: "Machine Learning",
       university: "Universitas Mikroskil",
       imageSrc: "/assets/image/foto-aldo.png",
-      githubUrl: "https://github.com/yourgithub",
-      discordUrl: "https://discord.com/users/yourdiscord",
-      linkedinUrl: "https://linkedin.com/in/yourlinkedin"
+      githubUrl: "https://github.com/Rypper370",
+      discordUrl: "https://discord.com/users/604220169849405442",
+      linkedinUrl: "https://www.linkedin.com/in/yohanesanantha"
     }
   ];
 
