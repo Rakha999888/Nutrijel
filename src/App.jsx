@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home";
-import LandingPage from "./pages/LandingPage";
+// import LandingPage from "./pages/LandingPage";
 import Food from "./pages/Food";
 import About from "./pages/AboutUs";
 import Tracker from "./pages/Tracker";
@@ -30,8 +30,8 @@ const Layout = ({ children }) => {
   const isLoginPage = location.pathname === '/login';
   const isSignUpPage = location.pathname === '/signup';
 
-  // Jangan tampilkan header/footer di LandingPage, Login, SignUp, atau jika showHeaderFooter false
-  if (isLandingPage || isLoginPage || isSignUpPage || !showHeaderFooter) {
+  // Jangan tampilkan header/footer di Login, SignUp, atau jika showHeaderFooter false
+  if (isLoginPage || isSignUpPage || !showHeaderFooter) {
     return children;
   }
 
@@ -91,8 +91,8 @@ function App() {
           />
           
           <Routes>
-            {/* Rute untuk LandingPage */}
-            <Route path="/" element={<LandingPage />} />
+            {/* Redirect dari root path ke /home */}
+            <Route path="/" element={<Navigate to="/home" replace />} />
             
             {/* Rute-rute lainnya */}
             <Route path="/login" element={

@@ -21,25 +21,31 @@ const JellBot = () => {
     'Mengapa tubuh membutuhkan serat?',
     'Apa perbedaan antara vitamin dan mineral?'
   ];
+  
+  // Fungsi untuk mengecek apakah pertanyaan valid
+  const isValidQuestion = (question) => {
+    const lowerQuestion = question.toLowerCase().trim();
+    return Object.keys(botResponses).some(key => key.toLowerCase() === lowerQuestion);
+  };
 
   // Jawaban untuk pertanyaan yang sering diajukan
   const botResponses = {
-    'seberapa penting peran kalori dalam diet menurut anda?': 'Kalori sangat penting dalam diet karena menentukan energi yang kita dapatkan dari makanan. Keseimbangan antara asupan dan pengeluaran kalori mempengaruhi berat badan. Namun, kualitas kalori juga penting - 100 kalori dari sayuran lebih bernutrisi daripada 100 kalori dari gula.',
-    'seberapa besar peran air putih dalam diet anda?': 'Air putih sangat penting dalam diet karena membantu pencernaan, penyerapan nutrisi, dan pembuangan racun. Minum cukup air juga bisa membantu mengendalikan nafsu makan dan mencegah makan berlebihan.',
-    'apakah anda pernah mengalami efek samping dari diet tertentu?': 'Sebagai AI, saya tidak memiliki pengalaman pribadi. Namun, diet yang terlalu ketat atau tidak seimbang seringkali menimbulkan efek samping seperti lemas, pusing, atau masalah pencernaan. Selalu konsultasikan dengan ahli gizi sebelum memulai diet tertentu.',
-    'apa itu gizi seimbang?': 'Gizi seimbang adalah susunan makanan sehari-hari yang mengandung zat gizi dalam jenis dan jumlah yang sesuai dengan kebutuhan tubuh. Ini termasuk karbohidrat, protein, lemak, vitamin, mineral, dan air dalam porsi yang tepat.',
-    'mengapa tubuh membutuhkan serat?': 'Tubuh membutuhkan serat untuk melancarkan pencernaan, mencegah sembelit, menurunkan kolesterol, mengontrol gula darah, dan membantu menjaga berat badan ideal. Serat juga memberikan rasa kenyang lebih lama.',
-    'apa perbedaan antara vitamin dan mineral': 'Vitamin adalah senyawa organik yang bisa dipecah oleh panas, udara, atau asam, sementara mineral adalah senyawa anorganik yang mempertahankan struktur kimianya. Tubuh membutuhkan vitamin dan mineral dalam jumlah yang berbeda-beda untuk berfungsi dengan baik.'
+    'seberapa penting peran kalori dalam diet menurut anda?': 'Hai! 😊 Kalori itu seperti bahan bakar untuk tubuh kita. Setiap aktivitas yang kita lakukan membutuhkan kalori, mulai dari bernapas hingga berolahraga. Tapi ingat, kualitas kalori juga penting lho! Misalnya, 100 kalori dari alpukat lebih bergizi dibanding 100 kalori dari permen. Jadi, pilihlah sumber kalori yang kaya nutrisi ya! 🥑🍎',
+    'seberapa besar peran air putih dalam diet anda?': 'Halo! 💧 Air putih itu seperti superhero untuk tubuh kita! Dia membantu mencerna makanan, menyerap nutrisi, dan membuang racun. Tahukah kamu? Kadang kita salah mengira haus dengan lapar, lho! Jadi, minum air yang cukup bisa bantu ngontrol nafsu makan juga. Yuk, jangan lupa minum 8 gelas sehari! 🚰✨',
+    'apakah anda pernah mengalami efek samping dari diet tertentu?': 'Hai! Sebagai asisten digital, saya tidak punya pengalaman pribadi. Tapi saya tahu diet yang terlalu ketat bisa bikin lemas, pusing, atau gangguan pencernaan. Itu sebabnya penting banget konsultasi ke ahli gizi sebelum mulai diet tertentu. Ingat, diet yang sehat adalah yang berkelanjutan dan sesuai kebutuhan tubuhmu! 💪😊',
+    'apa itu gizi seimbang?': 'Halo teman sehat! 🌟 Gizi seimbang itu seperti tim yang kompak di piring makan kita. Ada karbohidrat (nasi/roti), protein (ikan/ayam/tempe), lemak sehat (alpukat/kacang), vitamin, dan mineral (sayur & buah), serta jangan lupa minum air putih! Porsinya disesuaikan dengan usia, jenis kelamin, dan aktivitas kita. Simple kan? 🍚🍗🥦',
+    'mengapa tubuh membutuhkan serat?': 'Hai! Serat itu kayak sapu alami untuk usus kita lho! 🧹✨ Dia bantu:\n• Melancarkan BAB\n• Bikin kenyang lebih lama\n• Jaga kadar gula darah\n• Turunkan kolesterol\n• Jaga berat badan ideal\n\nDapatkan serat dari buah, sayur, dan biji-bijian ya! 🍎🥦🌾',
+    'apa perbedaan antara vitamin dan mineral': 'Hai! Yuk kenalan dengan vitamin dan mineral! 😊\n\nVitamin:\n• Senyawa organik\n• Bisa rusak oleh panas/cahaya\n• Contoh: Vitamin C (jeruk), Vitamin D (sinar matahari)\n\nMineral:\n• Senyawa anorganik\n• Tetap stabil\n• Contoh: Kalsium (susu), Zat besi (daging merah)\n\nKeduanya penting untuk tubuh kita, tapi dibutuhkan dalam jumlah yang berbeda. Yuk, penuhi keduanya! 💊🍊🥛'
   };
 
-  // Notifikasi acak
+  // Notifikasi acak dengan pertanyaan yang bisa dijawab
   const notifications = [
-    'Ingin tahu cara memulai diet sehat? Tanyakan pada JellBot!',
-    'Jangan lupa minum air putih yang cukup hari ini! 💧',
-    'Sudah makan buah dan sayur hari ini?',
-    'Ingin tahu lebih banyak tentang gizi seimbang?',
-    'JellBot siap membantu pertanyaan nutrisi Anda!',
-    'Jangan lupa untuk berolahraga secara teratur!'
+    'Tanyakan: Seberapa penting peran kalori dalam diet?',
+    'Tanyakan: Mengapa tubuh membutuhkan serat?',
+    'Tanyakan: Apa itu gizi seimbang?',
+    'Tanyakan: Apa perbedaan vitamin dan mineral?',
+    'Tanyakan: Seberapa besar peran air putih dalam diet?',
+    'Tanyakan: Efek samping dari diet tertentu?'
   ];
 
   // Tampilkan notifikasi acak setiap 10 detik
@@ -81,15 +87,24 @@ const JellBot = () => {
 
     // Respon otomatis
     setTimeout(() => {
-      const lowerInput = inputMessage.toLowerCase();
-      let responseText = 'Maaf, saya tidak mengerti pertanyaan Anda. Bisakah Anda menjelaskan lebih lanjut?';
+      const lowerInput = inputMessage.toLowerCase().trim();
+      let responseText = 'Maaf, saya hanya bisa menjawab pertanyaan yang sudah ditentukan. Berikut beberapa pertanyaan yang bisa saya jawab:';
       
-      // Cocokkan pertanyaan dengan respons yang ada
+      // Cek apakah pertanyaan sesuai dengan yang sudah ditentukan
+      let questionFound = false;
       for (const [question, answer] of Object.entries(botResponses)) {
-        if (lowerInput.includes(question.split(' ')[0])) { // Cek kata kunci pertama
+        if (lowerInput === question.toLowerCase()) {
           responseText = answer;
+          questionFound = true;
           break;
         }
+      }
+      
+      // Jika pertanyaan tidak ditemukan, tampilkan daftar pertanyaan yang bisa dijawab
+      if (!questionFound) {
+        responseText = 'Halo! Saya JellBot 🤖, asisten nutrisi Anda. \n\nSaat ini saya bisa membantu menjawab pertanyaan-pertanyaan berikut ini nih:\n\n' + 
+                      faqs.map((faq, index) => `${index + 1}. ${faq}`).join('\n') + 
+                      '\n\nCoba tanyakan salah satu pertanyaan di atas ya! 😊';
       }
 
       const botMessage = {
