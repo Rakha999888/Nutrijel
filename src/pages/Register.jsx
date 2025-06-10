@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/index.css";
+import toast, { Toaster } from 'react-hot-toast';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -44,9 +45,43 @@ const SignUp = () => {
       localStorage.setItem("isAuthenticated", "true");
       // Hapus flag isExploring jika ada
       localStorage.removeItem("isExploring");
-      navigate("/home");
+      
+      // Tampilkan notifikasi sukses
+      toast.success('Pendaftaran berhasil! Selamat datang di Nutrijel!', {
+        duration: 5000,
+        position: 'top-center',
+        style: {
+          background: '#4BB543',
+          color: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          fontSize: '14px',
+          fontWeight: '500',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }
+      });
+      
+      // Beri jeda sebelum navigasi agar notifikasi terlihat
+      setTimeout(() => {
+        navigate("/home");
+      }, 1500);
     } catch (error) {
-      setError("Failed to create an account. Please try again.");
+      const errorMessage = error.message || "Gagal membuat akun. Silakan coba lagi.";
+      setError(errorMessage);
+      // Tampilkan notifikasi error
+      toast.error(errorMessage, {
+        duration: 5000,
+        position: 'top-center',
+        style: {
+          background: '#ff4d4f',
+          color: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          fontSize: '14px',
+          fontWeight: '500',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }
+      });
       console.error("Signup error:", error);
     }
 
@@ -62,16 +97,52 @@ const SignUp = () => {
       localStorage.setItem("isAuthenticated", "true");
       // Hapus flag isExploring jika ada
       localStorage.removeItem("isExploring");
-      navigate("/home");
+      
+      // Tampilkan notifikasi sukses
+      toast.success('Berhasil masuk dengan Google! Selamat datang di Nutrijel!', {
+        duration: 5000,
+        position: 'top-center',
+        style: {
+          background: '#4BB543',
+          color: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          fontSize: '14px',
+          fontWeight: '500',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }
+      });
+      
+      // Beri jeda sebelum navigasi agar notifikasi terlihat
+      setTimeout(() => {
+        navigate("/home");
+      }, 1500);
     } catch (error) {
-      setError("Gagal mendaftar dengan Google. Silakan coba lagi.");
+      const errorMessage = error.message || "Gagal masuk dengan Google. Silakan coba lagi.";
+      setError(errorMessage);
+      // Tampilkan notifikasi error
+      toast.error(errorMessage, {
+        duration: 5000,
+        position: 'top-center',
+        style: {
+          background: '#ff4d4f',
+          color: '#fff',
+          padding: '16px',
+          borderRadius: '12px',
+          fontSize: '14px',
+          fontWeight: '500',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+        }
+      });
       console.error("Google signup error:", error);
     }
     setLoading(false);
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row relative">
+    <>
+      <Toaster />
+      <div className="min-h-screen flex flex-col md:flex-row relative">
       {/* Back Button */}
       <button 
         onClick={() => window.history.back()}
@@ -230,7 +301,8 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

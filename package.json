@@ -37,7 +37,6 @@
     "animate.css": "^4.1.1",
     "chart.js": "^4.4.9",
     "firebase": "^11.8.1",
-
     "lucide-react": "^0.513.0",
     "react": "^19.1.0",
     "react-bits": "^1.0.5",
