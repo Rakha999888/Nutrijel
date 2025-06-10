@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/index.css";
+import { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +26,12 @@ const Login = () => {
       localStorage.removeItem("isExploring");
       navigate("/home");
     } catch (error) {
-      setError("Failed to log in. Please check your credentials.");
+      const errorMessage = error.message === "Firebase: Error (auth/wrong-password)." || 
+                         error.message === "Firebase: Error (auth/user-not-found)."
+        ? "Email atau password salah. Silakan coba lagi."
+        : "Terjadi kesalahan saat login. Silakan coba lagi.";
+      
+      setError(errorMessage);
       console.error("Login error:", error);
     }
     setLoading(false);
@@ -49,7 +55,9 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row relative">
+    <>
+      <Toaster />
+      <div className="min-h-screen flex flex-col md:flex-row relative">
       {/* Back Button */}
       <button 
         onClick={() => window.history.back()}
@@ -85,7 +93,6 @@ const Login = () => {
             <Link to="/signup" className="bg-[#2E7D32] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#1B5E20] transition-colors inline-block text-lg shadow-md hover:shadow-lg">
               Sign Up
             </Link>
-            <p className="text-gray-700 mt-3 text-lg">Don't have an account?</p>
           </div>
         </div>
       </div>
@@ -152,10 +159,27 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="text-right">
-              <a href="#" className="text-gray-600 hover:text-orange-500 hover:underline text-base">
-                Forgot your password?
-              </a>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  Remember me
+                </label>
+              </div>
+
+              <div className="text-sm">
+                <Link 
+                  to="/forgot-password" 
+                  className="font-medium text-green-600 hover:text-green-500"
+                >
+                  Forgot password?
+                </Link>
+              </div>
             </div>
 
             <button type="submit" disabled={loading} className="w-full bg-orange-500 text-white py-4 px-6 rounded-xl font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 text-lg">
@@ -163,17 +187,21 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-600 text-lg">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-orange-500 hover:underline font-semibold">
-                Sign up here
+          <div className="text-center mt-6">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{' '}
+              <Link 
+                to="/signup" 
+                className="text-green-600 font-medium hover:text-green-700 hover:underline transition-colors"
+              >
+                Sign Up
               </Link>
             </p>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -17,6 +17,7 @@ import Tracker from "./pages/Tracker";
 import Education from "./pages/Education";
 import Login from "./pages/Login";
 import SignUp from "./pages/Register.jsx";
+import ForgotPassword from "./pages/ForgotPassword";
 import ProfileSettings from "./pages/setting/ProfileSettings";
 import Settings from "./pages/setting/Settings";
 import JellBot from "./pages/JellBot";
@@ -105,6 +106,10 @@ function App() {
               <>
                 <SignUp />
               </>
+            } />
+            
+            <Route path="/forgot-password" element={
+              <ForgotPassword />
             } />
             
             <Route path="/profile" element={

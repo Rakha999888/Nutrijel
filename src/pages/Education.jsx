@@ -255,11 +255,13 @@ const Education = () => {
             <div className="w-full lg:w-3/5 text-center lg:text-left">
               <div className=" p-8 sm:p-12 lg:p-16 rounded-3xl relative overflow-hidden">
                 <div className="relative z-10">
-                  <h1 className="text-4xl text-center sm:text-4xl lg:text-5xl font-bold text-[#1e3c3f] tracking-tight leading-tight mb-2 animate-pulse">
-                    <span className="text-[#196D0D] inline-block">Discover</span> The Best<br />
-                    <span className="bg-gradient-to-r from-[#196D0D] to-emerald-600 bg-clip-text text-transparent">
-                      Nutrition Tips
-                    </span>
+                  <h1 className="text-4xl text-center sm:text-4xl lg:text-5xl font-bold text-[#1e3c3f] tracking-tight leading-tight mb-2">
+                    <div className="animate-container">
+                      <div className="text-[#196D0D] fade-in-up">Discover The Best</div>
+                      <div className="bg-gradient-to-r from-[#196D0D] to-emerald-600 bg-clip-text text-transparent fade-in-up delayed">
+                        Nutrition Tips
+                      </div>
+                    </div>
                   </h1>
                   <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 leading-relaxed mb-8">
                     Explore articles and videos to learn more about how nutrition impacts your{' '}

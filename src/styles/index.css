@@ -17,3 +17,30 @@
   background-size: 20px 20px;
   background-repeat: repeat;
 }
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0; /* Start invisible */
+  animation: fadeInUp 2s ease-out forwards; /* Changed to 2s */
+}
+
+.fade-in-up.delayed {
+  animation-delay: 2s; /* Changed to 2s delay for the second line */
+}
+
+/* Ensure the container has the right layout */
+.animate-container {
+  opacity: 0; /* Initially hidden */
+  animation: fadeInUp 2s ease-out 0s forwards; /* Start immediately, 2s duration */
+}

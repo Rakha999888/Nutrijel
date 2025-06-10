@@ -255,16 +255,24 @@ const SignUp = () => {
                   onChange={handleChange}
                   required
                   className="w-full pl-12 pr-12 py-4 bg-yellow-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-colors text-lg"
-                  placeholder="Confirm Password"
+                  placeholder="Konfirmasi Password"
                 />
-                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-xl">
+                <button 
+                  type="button" 
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none text-xl"
+                  aria-label={showConfirmPassword ? "Sembunyikan password" : "Tampilkan password"}
+                >
                   {showConfirmPassword ? "👁️" : "🙈"}
                 </button>
               </div>
-            </div>
-
-            <div className="text-center">
-              <p className="text-gray-600 text-base mb-2">Forgot your password?</p>
+              
+              <Link 
+                to="/forgot-password" 
+                className="text-green-600 hover:underline text-sm"
+              >
+                Forgot password?
+              </Link>
             </div>
 
             <button type="submit" disabled={loading} className="w-full bg-orange-500 text-white py-4 px-6 rounded-xl font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 text-lg">
@@ -287,8 +295,6 @@ const SignUp = () => {
       <div className="w-full md:w-1/2 bg-[#A8D5AA] flex flex-col items-center justify-center p-8 py-16 md:py-8">
         <div className="text-center max-w-md mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 mb-6">Start New Journey!</h1>
-          <p className="text-gray-700 text-lg mb-8">Already have an account?</p>
-
           {/* Logo */}
           <div className="mb-8">
             <img src="/assets/image/logo.png" alt="NutriCheck Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6" />
