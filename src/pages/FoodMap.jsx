@@ -5,9 +5,26 @@ import L from 'leaflet';
 import { PlusCircle, X, Upload, MapPin, Info, Search, ArrowLeft } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
 
-// Function to get food emoji based on food name
+// Fungsi untuk mendapatkan emoji berdasarkan nama makanan
 const getFoodEmoji = (foodName) => {
-  if (foodName.includes('rendang')) return '🍖';
+  const lowerName = foodName.toLowerCase();
+  
+  if (lowerName.includes('rendang')) return '🍖';
+  if (lowerName.includes('sate')) return '🍢';
+  if (lowerName.includes('gado')) return '🥗';
+  if (lowerName.includes('soto')) return '🍜';
+  if (lowerName.includes('nasi goreng')) return '🍛';
+  if (lowerName.includes('bakso')) return '🍡';
+  if (lowerName.includes('sop')) return '🥣';
+  if (lowerName.includes('ayam')) return '🍗';
+  if (lowerName.includes('ikan')) return '🐟';
+  if (lowerName.includes('sambal')) return '🌶️';
+  if (lowerName.includes('tempe') || lowerName.includes('tahu')) return '🧈';
+  if (lowerName.includes('nasi')) return '🍚';
+  if (lowerName.includes('mie')) return '🍜';
+  if (lowerName.includes('bakwan')) return '🥟';
+  if (lowerName.includes('pempek')) return '🐟';
+  
   if (foodName.includes('gudeg')) return '🍛';
   if (foodName.includes('papeda') || foodName.includes('kuah')) return '🥣';
   if (foodName.includes('sate')) return '🍢';
@@ -33,27 +50,117 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-// Configure food marker icon
-const foodMarkerIcon = new L.Icon({
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerIcon2x,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-  className: 'food-marker'
-});
-
-// Custom CSS for food marker
-const foodMarkerStyle = {
-  backgroundColor: '#196D0D',
-  color: '#fff',
-  borderRadius: '50%',
-  padding: '8px',
-  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-  fontSize: '14px'
+// Fungsi untuk membuat ikon kustom dengan emoji makanan
+const createCustomIcon = (foodName) => {
+  const emoji = getFoodEmoji(foodName);
+  
+  // Warna latar belakang berdasarkan jenis makanan
+  let bgColor = '#4CAF50'; // Default hijau
+  
+  if (foodName.toLowerCase().includes('ayam') || foodName.toLowerCase().includes('daging')) {
+    bgColor = '#E57373'; // Merah muda untuk daging
+  } else if (foodName.toLowerCase().includes('ikan') || foodName.toLowerCase().includes('seafood')) {
+    bgColor = '#64B5F6'; // Biru muda untuk seafood
+  } else if (foodName.toLowerCase().includes('sayur') || foodName.toLowerCase().includes('buah')) {
+    bgColor = '#81C784'; // Hijau muda untuk sayur/buah
+  }
+  
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `
+      <div class="marker-container" style="
+        background: ${bgColor};
+        width: 40px;
+        height: 40px;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        border: 2px solid white;
+      ">
+        <div style="
+          transform: rotate(45deg);
+          font-size: 20px;
+          color: white;
+          text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        ">
+          ${emoji}
+        </div>
+        <div class="pulse" style="
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: ${bgColor};
+          border-radius: 50%;
+          opacity: 0.5;
+          animation: pulse 2s infinite;
+          z-index: -1;
+        "></div>
+      </div>
+    `,
+    iconSize: [40, 40],
+    iconAnchor: [20, 50],
+    popupAnchor: [0, -40]
+  });
 };
+
+// Style untuk marker kustom
+const customMarkerStyle = `
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    70% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  
+  .custom-marker {
+    background: none !important;
+    border: none !important;
+  }
+  
+  .marker-container {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .marker-container:hover {
+    transform: rotate(-45deg) scale(1.2);
+    filter: brightness(1.1);
+  }
+  
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  }
+  
+  .leaflet-popup-content {
+    margin: 0 !important;
+  }
+  
+  .leaflet-popup-tip {
+    display: none;
+  }
+  
+  .custom-popup .leaflet-popup-content-wrapper {
+    border-left: 4px solid #4CAF50;
+  }
+`;
+
+// Tambahkan style ke head
+document.head.insertAdjacentHTML('beforeend', `<style>${customMarkerStyle}</style>`);
 
 // Komponen untuk menangani klik peta
 function LocationMarker({ onLocationSelect }) {
@@ -74,7 +181,7 @@ const initialFoodData = [
     description: 'Daging sapi dimasak dengan bumbu rempah khas Minang',
     position: [-0.95, 100.35],
     benefits: 'Tinggi protein, Kaya rempah-rempah, Sumber energi',
-    image: 'https://images.unsplash.com/photo-1551504739-5d77e4ac941d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://img.freepik.com/free-photo/rendang-beef-rendang-traditional-beef-stew-with-coconut-and-spice-from-padang-city-west-sumatra-indonesia_141793-3468.jpg?w=800&t=st=1700000000~exp=1700003600~hmac=1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
   },
   {
     id: 2,
@@ -83,7 +190,7 @@ const initialFoodData = [
     description: 'Olahan nangka muda dengan kuah santan dan gula jawa',
     position: [-7.80, 110.36],
     benefits: 'Sumber karbohidrat, Mengandung protein nabati, Kaya serat',
-    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://img.freepik.com/free-photo/gudeg-jogja-traditional-javanese-dish-jackfruit-stew_141793-3482.jpg?w=800&t=st=1700000000~exp=1700003600~hmac=1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
   },
   {
     id: 3,
@@ -92,7 +199,7 @@ const initialFoodData = [
     description: 'Bubur sagu khas Papua yang disajikan dengan ikan kuah kuning',
     position: [-4.27, 138.08],
     benefits: 'Rendah lemak, Sumber karbohidrat kompleks, Mudah dicerna',
-    image: 'https://images.unsplash.com/photo-1556910637-9e8b9f9b9b9b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://img.freepik.com/free-photo/papeda-papuan-sago-porridge-with-yellow-soup_141793-3501.jpg?w=800&t=st=1700000000~exp=1700003600~hmac=1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
   },
   {
     id: 4,
@@ -101,39 +208,14 @@ const initialFoodData = [
     description: 'Olahan ikan dan sagu dengan kuah cuko yang khas',
     position: [-2.99, 104.75],
     benefits: 'Kaya protein ikan, Sumber karbohidrat, Mengandung omega-3',
-    image: 'https://images.unsplash.com/photo-1551504739-5d77e4ac941d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+    image: 'https://img.freepik.com/free-photo/pempek-palembang-indonesian-fish-cake-served-with-sweet-sour-sauce_141793-3495.jpg?w=800&t=st=1700000000~exp=1700003600~hmac=1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
   }
 ];
 
-// Set food marker icon for all markers
-L.Marker.prototype.options.icon = foodMarkerIcon;
-
-// Add food icon to markers
-L.Icon.Default.prototype._getIconUrl = () => {
-  return '';
+// Fungsi untuk mendapatkan ikon kustom berdasarkan nama makanan
+const getCustomIcon = (foodName) => {
+  return createCustomIcon(foodName);
 };
-
-L.Icon.Default.prototype._getIcon = function() {
-  const div = document.createElement('div');
-  div.className = 'food-marker-icon';
-  div.style.cssText = `
-    background-color: #196D0D;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  `;
-  div.innerHTML = '<i class="food-marker-icon-inner">🍽️</i>';
-  return div;
-};
-
-L.Icon.Default.prototype._getIconUrl = null;
-L.Icon.Default.prototype._getIcon = null;
 
 const FoodMap = () => {
   const navigate = useNavigate();
@@ -405,46 +487,48 @@ const FoodMap = () => {
         
         <LocationMarker onLocationSelect={handleMapClick} />
         
-        {filteredFoods.map((food) => (
-          <Marker 
-            key={food.id} 
-            position={food.position}
-          >
-            <Popup className="max-w-[250px] p-4 bg-white rounded-lg shadow-lg">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-2" role="img" aria-label={food.name}>
-                      {getFoodEmoji(food.name.toLowerCase())}
-                    </span>
-                    <h3 className="font-bold text-lg text-[#196D0D]">{food.name}</h3>
+        {filteredFoods.map((food) => {
+          const customIcon = getCustomIcon(food.name);
+          return (
+            <Marker 
+              key={food.id} 
+              position={food.position}
+              icon={customIcon}
+            >
+              <Popup className="custom-popup">
+                <div className="p-3 max-w-xs">
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">{getFoodEmoji(food.name)}</span>
+                    <h3 className="font-bold text-lg text-gray-800">{food.name}</h3>
                   </div>
-                  <MapPin className="w-5 h-5 text-green-600" />
-                </div>
-                <div className="text-sm text-gray-600">
-                  <p className="mb-2">{food.region}</p>
-                  <p className="line-clamp-2">{food.description}</p>
-                </div>
-                
-                {food.benefits && (
-                  <div className="mt-2">
-                    <div className="flex items-center text-sm font-medium text-gray-800">
-                      <Info className="w-4 h-4 mr-1 text-[#196D0D]" />
-                      Manfaat:
+                  <div className="bg-blue-50 p-2 rounded-lg mb-2">
+                    <p className="text-sm text-gray-600">📍 {food.region}</p>
+                    <p className="mt-1 text-gray-700">{food.description}</p>
+                  </div>
+                  {food.benefits && (
+                    <div className="bg-green-50 p-2 rounded-lg">
+                      <p className="font-semibold text-green-700 flex items-center">
+                        <Info size={16} className="mr-1" /> Manfaat:
+                      </p>
+                      <ul className="list-disc list-inside text-sm text-gray-700 mt-1">
+                        {food.benefits.split(', ').map((benefit, idx) => (
+                          <li key={idx} className="ml-4">{benefit}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <p className="text-sm text-gray-600 line-clamp-2">{food.benefits}</p>
-                  </div>
-                )}
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-        
-        {selectedPosition && showAddForm && (
-          <Marker position={selectedPosition}>
-            <Popup>Lokasi makanan baru</Popup>
-          </Marker>
-        )}
+                  )}
+                  {food.image && (
+                    <img 
+                      src={food.image} 
+                      alt={food.name} 
+                      className="mt-3 w-full h-32 object-cover rounded-lg shadow-sm"
+                    />
+                  )}
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
             </MapContainer>
             
             {/* Map Controls */}
