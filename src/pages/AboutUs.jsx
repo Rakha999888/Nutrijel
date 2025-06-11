@@ -1,6 +1,105 @@
 import React, { useRef, useCallback, forwardRef, useState, useEffect } from 'react';
 import HTMLFlipBook from 'react-pageflip';
-import { Github, MessageCircle, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Github, MessageCircle, Linkedin, ChevronLeft, ChevronRight, X, ArrowRight, ArrowLeft } from 'lucide-react';
+
+const TutorialModal = ({ isOpen, onClose }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const tutorialSteps = [
+    {
+      title: "Cara Menggunakan NutriJel",
+      content: "Selamat datang di panduan penggunaan NutriJel. Ikuti langkah-langkah berikut untuk memaksimalkan pengalaman Anda.",
+      image: "👋"
+    },
+    {
+      title: "1. Daftar / Masuk",
+      content: "Buat akun baru atau masuk ke akun Anda untuk memulai melacak nutrisi harian Anda.",
+      image: "📝"
+    },
+    {
+      title: "2. Catat Makanan",
+      content: "Tambahkan makanan yang Anda konsumsi ke dalam catatan harian. Anda bisa menambahkan detail seperti porsi dan waktu makan.",
+      image: "🍽️"
+    },
+    {
+      title: "3. Analisis Nutrisi",
+      content: "Dapatkan analisis nutrisi otomatis dari makanan yang Anda konsumsi. Lihat asupan kalori, protein, karbohidrat, dan lemak.",
+      image: "📊"
+    },
+    {
+      title: "4. Pantau Perkembangan",
+      content: "Lacak perkembangan nutrisi Anda dari waktu ke waktu melalui dashboard yang interaktif dan mudah dipahami.",
+      image: "📈"
+    }
+  ];
+
+  const nextStep = () => {
+    if (currentStep < tutorialSteps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      onClose();
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-md w-full mx-4 overflow-hidden shadow-2xl transform transition-all">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-gray-800">{tutorialSteps[currentStep].title}</h3>
+            <button 
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          
+          <div className="text-center py-6">
+            <div className="text-6xl mb-6">{tutorialSteps[currentStep].image}</div>
+            <p className="text-gray-600 mb-6">{tutorialSteps[currentStep].content}</p>
+            
+            <div className="flex justify-between items-center mt-8">
+              <button
+                onClick={prevStep}
+                disabled={currentStep === 0}
+                className={`flex items-center px-4 py-2 rounded-lg ${currentStep === 0 ? 'text-gray-400' : 'text-green-600 hover:bg-green-50'}`}
+              >
+                <ArrowLeft size={18} className="mr-2" />
+                Sebelumnya
+              </button>
+              
+              <div className="flex space-x-2">
+                {tutorialSteps.map((_, index) => (
+                  <div 
+                    key={index} 
+                    className={`w-2 h-2 rounded-full ${currentStep === index ? 'bg-green-500' : 'bg-gray-200'}`}
+                  />
+                ))}
+              </div>
+              
+              <button
+                onClick={nextStep}
+                className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              >
+                {currentStep === tutorialSteps.length - 1 ? 'Selesai' : 'Selanjutnya'}
+                <ArrowRight size={18} className="ml-2" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const EnhancedProfileCard = ({ name, role, university, imageSrc, githubUrl, discordUrl, linkedinUrl }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -227,6 +326,7 @@ const MobileSinglePageViewer = ({ profiles, currentPage, onPageChange }) => {
 };
 
 const AboutUs = () => {
+  const [showTutorial, setShowTutorial] = useState(false);
   const book = useRef();
   const [isMobile, setIsMobile] = useState(false);
   const [currentMobilePage, setCurrentMobilePage] = useState(0);
@@ -401,12 +501,12 @@ const AboutUs = () => {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">
-                Apa Itu NutriJel?
+                What is NutriJel?
               </span>
             </h2>
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
               <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-                <span className="font-bold text-green-700">NutriJel</span> adalah singkatan dari <span className="font-semibold text-emerald-600">Nutrisi Jelas</span> yang dirancang untuk membantu Anda mencapai gaya hidup sehat melalui pemantauan nutrisi yang cerdas dan personal. Aplikasi ini menggabungkan teknologi terkini dengan pengetahuan gizi untuk memberikan pengalaman yang mudah dan menyenangkan dalam melacak asupan makanan harian Anda.
+                <span className="font-bold text-green-700">NutriJel (Nutrisi Jelas)</span> adalah aplikasi berbasis kecerdasan buatan (AI) yang dirancang untuk membantu Anda mencapai gaya hidup sehat melalui pemantauan nutrisi yang cerdas dan personal. Dengan menggabungkan teknologi AI dan pengetahuan gizi, NutriJel menghadirkan pengalaman yang mudah, adaptif, dan menyenangkan dalam melacak asupan makanan harian secara otomatis dan sesuai kebutuhan individu.
               </p>
             </div>
           </div>
@@ -442,104 +542,133 @@ const AboutUs = () => {
             </div>
           </div>
 
-          {/* Why Choose NutriJel Section */}
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">
-                Mengapa Memilih NutriJel?
-              </span>
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Feature 1 */}
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">🔍</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Pemindaian Makanan Cerdas</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Input makanan dan dapatkan analisis nutrisi instan dengan teknologi yang akurat dan mudah digunakan.
-                </p>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Rekomendasi Personal</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Dapatkan saran nutrisi yang disesuaikan dengan tujuan dan kebutuhan kesehatan Anda secara personal.
-                </p>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">📚</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Education</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Video sehat dan artikel yang sangat bermanfaat untuk meningkatkan pengetahuan nutrisi Anda.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* How It Works Section */}
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">
-                Cara Kerja
-              </span>
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Step 1 */}
-              <div className="relative">
-                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                    1
-                  </div>
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 mt-4 group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-2xl">👤</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Create an Account</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Sign up and set up your profile with basic information to get started on your nutrition journey.
-                  </p>
-                </div>
+          <div className="relative overflow-hidden py-20 bg-gradient-to-b from-white to-gray-50">
+            {/* Decorative Elements */}
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-green-50 to-transparent"></div>
+            <div className="absolute top-1/4 right-0 w-64 h-64 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div className="absolute top-1/3 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+            <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-20">
+                <span className="inline-block px-4 py-2 text-sm font-semibold text-green-700 bg-green-100 rounded-full mb-4">
+                  Easy Process
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                    How NutriJel Works
+                  </span>
+                </h2>
+                <div className="w-32 h-1.5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mx-auto mb-6"></div>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Start your nutrition journey in three simple steps
+                </p>
+              </div>
+              
+              <div className="relative z-10"></div>
+              
+              <div className="mt-8 text-center">
+                <button 
+                  onClick={() => setShowTutorial(true)}
+                  className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center mx-auto"
+                >
+                  Pelajari Lebih Lanjut
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
               </div>
 
-              {/* Step 2 */}
-              <div className="relative">
-                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                    2
-                  </div>
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 mt-4 group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-2xl">🍽️</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Log Your Meals</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Easily add foods to your daily log and track your nutritional intake with our smart scanning feature.
+              {/* Testimonials Section */}
+              <div className="mt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
+                      Apa Kata Mereka?
+                    </span>
+                  </h2>
+                  <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Lihat apa yang pengguna katakan tentang pengalaman mereka dengan NutriJel
                   </p>
                 </div>
-              </div>
 
-              {/* Step 3 */}
-              <div className="relative">
-                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                    3
+                <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+                  {/* Testimonial 1 */}
+                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div className="flex items-center mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center text-2xl font-bold text-emerald-600 mr-4">
+                        WB
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900">Windah Bersaudara</h4>
+                        <p className="text-emerald-600">Pengguna Setia</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 italic">
+                      "NutriJel sangat membantu saya dan saudara-saudara saya dalam memantau asupan nutrisi harian. Fiturnya lengkap dan mudah digunakan!"
+                    </p>
+                    <div className="flex mt-4 text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
                   </div>
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-6 mt-4 group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-2xl">📊</span>
+
+                  {/* Testimonial 2 */}
+                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div className="flex items-center mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600 mr-4">
+                        JT
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900">Joe Tasim</h4>
+                        <p className="text-blue-600">Atlet Profesional</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 italic">
+                      "Sebagai atlet, nutrisi sangat penting. NutriJel membantu saya melacak asupan protein dan nutrisi penting lainnya dengan sangat akurat."
+                    </p>
+                    <div className="flex mt-4 text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">Track Progress</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Monitor reports and insights about your nutrition journey to achieve your health goals effectively.
-                  </p>
+
+                  {/* Testimonial 3 */}
+                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div className="flex items-center mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center text-2xl font-bold text-purple-600 mr-4">
+                        DK
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900">Deddy Korbujer</h4>
+                        <p className="text-purple-600">Konsultan Gizi</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 italic">
+                      "Saya merekomendasikan NutriJel kepada klien-klien saya. Antarmukanya user-friendly dan fitur analisis nutrisinya sangat membantu dalam program diet."
+                    </p>
+                    <div className="flex mt-4 text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
+              
+              <TutorialModal 
+                isOpen={showTutorial} 
+                onClose={() => setShowTutorial(false)} 
+              />
             </div>
           </div>
         </div>

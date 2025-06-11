@@ -105,13 +105,13 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-100 via-yellow-50 to-orange-50 shadow-lg z-50 font-sans">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-3 py-2">
         {/* Logo - Pindah ke kiri */}
         <div className="flex-shrink-0">
           <img 
             src="/assets/image/logo.png" 
             alt="NutriCheck Logo" 
-            className="h-15 w-15 md:h-20 md:w-20 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg" 
+            className="h-16 w-16 md:h-20 md:w-20 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg" 
           />
         </div>
         
@@ -165,9 +165,9 @@ const Navbar = () => {
                     e.stopPropagation();
                     setIsProfileOpen(!isProfileOpen);
                   }}
-                  className="flex items-center gap-2 bg-white/80 hover:bg-white transition-all duration-300 rounded-full p-1 pr-3 shadow-md"
+                  className="flex items-center gap-1 bg-white/80 hover:bg-white transition-all duration-300 rounded-full p-0.5 pr-2 shadow-md text-sm"
                 >
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md">
+                  <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow-md">
                     {currentUser.photoURL ? (
                       <img 
                         src={currentUser.photoURL} 
@@ -185,10 +185,10 @@ const Navbar = () => {
                     )}
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-medium text-gray-800 leading-tight">
+                    <p className="text-xs font-medium text-gray-800 leading-tight">
                       {currentUser.displayName || currentUser.email?.split('@')[0]}
                     </p>
-                    <p className="text-xs text-gray-500">View profile</p>
+                    <p className="text-[10px] text-gray-500">View profile</p>
                   </div>
                   <ChevronDown isOpen={isProfileOpen} />
                 </button>
@@ -196,38 +196,38 @@ const Navbar = () => {
               
               {/* Dropdown Menu */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl z-50 overflow-hidden border border-gray-100">
-                  <div className="p-2">
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-500">My Account</p>
+                <div className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-xl z-50 overflow-hidden border border-gray-100 text-sm">
+                  <div className="p-1.5">
+                    <div className="px-3 py-2 border-b border-gray-100">
+                      <p className="text-xs font-medium text-gray-500">My Account</p>
                     </div>
                     <button
                       onClick={() => handleProfileNavigation('/profile')}
-                      className="w-full text-left flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors rounded-lg m-1 group"
+                      className="w-full text-left flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors rounded-lg m-0.5 group text-sm"
                     >
-                      <div className="p-2 mr-3 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="p-1.5 mr-2 rounded-md bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                         </svg>
                       </div>
                       <div>
-                        <p className="font-medium">My Profile</p>
-                        <p className="text-xs text-gray-500">Manage your profile</p>
+                        <p className="font-medium text-sm">My Profile</p>
+                        <p className="text-[11px] text-gray-500">Manage your profile</p>
                       </div>
                     </button>
                     <div className="border-t border-gray-100 my-1"></div>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors rounded-lg m-1 group"
+                      className="flex items-center w-full px-3 py-2 text-left text-red-600 hover:bg-red-50 transition-colors rounded-lg m-0.5 group text-sm"
                     >
-                      <div className="p-2 mr-3 rounded-lg bg-red-50 text-red-600 group-hover:bg-red-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="p-1.5 mr-2 rounded-md bg-red-50 text-red-600 group-hover:bg-red-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium">Sign Out</p>
-                        <p className="text-xs text-gray-500">Sign out from your account</p>
+                        <p className="font-medium text-sm">Sign Out</p>
+                        <p className="text-[11px] text-gray-500">Sign out from your account</p>
                       </div>
                     </button>
                   </div>
@@ -238,14 +238,14 @@ const Navbar = () => {
             <>
               <Link 
                 to="/login" 
-                className="relative group bg-white text-[#196D0D] px-5 py-2 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 font-bold overflow-hidden" 
+                className="relative group bg-white text-[#196D0D] px-4 py-1.5 text-sm rounded-full shadow hover:bg-gray-100 transition-all duration-300 font-bold overflow-hidden" 
               >
                 <div className="absolute inset-0 bg-gray-100/50 rounded-full scale-0 group-hover:scale-150 transition-transform duration-500 blur-sm"></div>
-                <span className="relative z-10">Login</span>
+                <span className="relative z-10">Sign In</span>
               </Link>
               <Link 
                 to="/signup" 
-                className="relative group bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-5 py-2 rounded-full shadow-lg hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 font-bold overflow-hidden" 
+                className="relative group bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-4 py-1.5 text-sm rounded-full shadow hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 font-bold overflow-hidden" 
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/50 to-orange-500/50 rounded-full scale-0 group-hover:scale-150 transition-transform duration-500 blur-sm"></div>
                 <span className="relative z-10">Sign Up</span>
@@ -309,7 +309,7 @@ const Navbar = () => {
                   className="block w-full bg-[#196D0D] text-white py-2 text-center rounded-full shadow hover:bg-gray-100 transition font-bold" 
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Login
+                  Sign In
                 </Link>
                 <Link 
                   to="/signup" 

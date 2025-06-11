@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, DoughnutController } fro
 import * as tf from "@tensorflow/tfjs";
 import Select from "react-select";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 // --- KONFIGURASI DAN URL ---
 ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
@@ -477,8 +478,22 @@ const Tracker = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6 pt-8 md:pt-35">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Food Tracker Cerdas</h1>
-          <p className="text-gray-600">Pantau nutrisi harian Anda dengan analisis cerdas secara real-time.</p>
+          <motion.h1 
+            className="text-4xl font-bold mb-2 text-[#196D0D]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
+            Smart Food Tracker
+          </motion.h1>
+          <motion.p 
+            className="text-gray-600"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 2 }}
+          >
+            Monitor your daily nutrition with real-time intelligent analysis.
+          </motion.p>
           {mlError && <p className="mt-2 p-2 text-center text-red-800 bg-red-100 rounded-lg">{mlError}</p>}
         </div>
 
@@ -537,7 +552,7 @@ const Tracker = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
               <div className="w-2 h-8 bg-gradient-to-b from-green-500 to-teal-500 rounded-full mr-4"></div>
-              <h2 className="text-2xl font-bold text-gray-800">Daftar Makanan Dikonsumsi</h2>
+              <h2 className="text-2xl font-bold text-gray-800">Consumed Food List</h2>
             </div>
             {foodItems.length > 0 && (
               <button onClick={() => setIsDeleteAllModalOpen(true)} className="px-4 py-2 text-sm font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors" title="Hapus semua makanan">
@@ -598,7 +613,7 @@ const Tracker = () => {
         <div className="bg-white backdrop-blur-sm bg-opacity-90 shadow-xl rounded-2xl p-8 border border-gray-100">
           <div className="flex items-center mb-6">
             <div className="w-2 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-4"></div>
-            <h2 className="text-2xl font-bold text-gray-800">Hasil Analisis Nutrisi</h2>
+            <h2 className="text-2xl font-bold text-gray-800">Nutrition Analysis Result</h2>
           </div>
           {analysisResult ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

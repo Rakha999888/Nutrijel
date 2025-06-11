@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { PlusCircle, X, Upload, MapPin, Info, Search, ArrowLeft } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 // Fungsi untuk mendapatkan emoji berdasarkan nama makanan
 const getFoodEmoji = (foodName) => {
@@ -401,16 +402,31 @@ const FoodMap = () => {
         </button>
         
         {/* Header */}
-        <div className="mb-10 text-center">
+        <motion.div 
+          className="mb-10 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2 }}
+        >
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-800 tracking-tight">
+            <motion.h1 
+              className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-800 tracking-tight"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 0.2 }}
+            >
               Traditional Food <span className="text-[#196D0D]">Map</span>
-            </h1>
-            <p className="text-gray-700 text-lg sm:text-xl max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p 
+              className="text-gray-700 text-lg sm:text-xl max-w-3xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2, delay: 0.4 }}
+            >
               Discover and share culinary delights from across Indonesia's diverse regions
-            </p>
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
         
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           {/* Search and Add Button */}

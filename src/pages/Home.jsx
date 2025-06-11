@@ -139,72 +139,50 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Key Features Section */}
+      {/* Main Features Section */}
       <section className="py-20 bg-gradient-to-b from-white to-green-25">
         <div className="container mx-auto px-6">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Our <span className="text-[#196D0D]">Key Features</span>
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-800">
+                Main Features
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Discover various features that will help you live a healthy lifestyle and gain useful knowledge.
-            </p>
-          </div>
-          
-          {/* Features Grid */}
-          <div className="relative z-10 grid md:grid-cols-3 gap-8 mb-20">
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-green-200 via-yellow-200 to-orange-200 -z-10"></div>
-            {features.map((feature, index) => (
-              <FeatureCard 
-                key={index}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                alt={feature.alt}
-              />
-            ))}
-          </div>
-          
-          {/* Call to Action */}
-          <div className="relative bg-gradient-to-br from-[#CFEBD1] via-emerald-50 to-[#CFEBD1] rounded-3xl p-8 md:p-12 text-center shadow-xl border border-green-200/50">
-            <div className="absolute top-4 right-4 w-20 h-20 bg-green-200/30 rounded-full blur-xl"></div>
-            <div className="absolute bottom-4 left-4 w-16 h-16 bg-emerald-200/30 rounded-full blur-xl"></div>
-            <div className="max-w-2xl mx-auto space-y-6">
-              <h2 className="text-4xl font-bold text-[#196D0D]">
-                Ready to start your healthy journey?
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Join now to experience the benefits of our platform and start living healthier today.
-              </p>
-              <div className="pt-4">
-                {currentUser ? (
-                  <Link 
-                    to="/tracker"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-[#196D0D] to-emerald-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                  >
-                    Continue Journey!
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </Link>
-                ) : (
-                  <Link 
-                    to="/signup"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-[#196D0D] to-emerald-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-                  >
-                    Join Now!
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </Link>
-                )}
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Feature 1 */}
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl">🔍</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Smart Food Scanning</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Input your meals and get instant nutritional analysis with our accurate and easy-to-use technology.
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl">🎯</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Personalized Recommendations</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Get customized nutrition advice tailored to your health goals and personal needs.
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center group">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl">📚</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Nutrition Education</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Access a wealth of healthy videos and articles to enhance your nutritional knowledge.
+                </p>
               </div>
             </div>
-            
           </div>
-          
         </div>
       </section>
     </div>

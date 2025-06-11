@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/index.css";
 import { Toaster } from 'react-hot-toast';
+import { motion, AnimatePresence } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -80,20 +81,98 @@ const Login = () => {
       </button>
       
       {/* Left Side - Welcome Section */}
-      <div className="w-full md:w-1/2 bg-[#A8D5AA] flex flex-col items-center justify-center p-8 py-16 md:py-8">
+      <div className="w-full md:w-1/2 bg-[#A8D5AA] flex flex-col items-center justify-center p-8 py-16 md:py-8 overflow-hidden">
         <div className="text-center max-w-md mx-auto">
-          <h1 className="text-4xl font-bold text-gray-800 mb-6">Welcome Back!</h1>
+          <AnimatePresence>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.3
+                }
+              }}
+              className="text-4xl font-bold text-gray-800 mb-6"
+            >
+              Welcome Back!
+              <motion.span 
+                className="block h-1.5 bg-gradient-to-r from-green-600 to-emerald-400 rounded-full mt-2"
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ 
+                  scaleX: 1, 
+                  opacity: 1,
+                  transition: { 
+                    delay: 0.8,
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1]
+                  }
+                }}
+              />
+            </motion.h1>
 
-          {/* Logo */}
-          <div className="mb-8">
-            <img src="/assets/image/logo.png" alt="NutriCheck Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4" />
-          </div>
+            {/* Logo */}
+            <motion.div 
+              className="mb-8"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1,
+                transition: { 
+                  delay: 0.5,
+                  duration: 0.8,
+                  ease: [0.22, 1, 0.36, 1],
+                }
+              }}
+              whileHover={{
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <motion.img 
+                src="/assets/image/logo.png" 
+                alt="NutriCheck Logo" 
+                className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4"
+                animate={{
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
 
-          <div className="mb-4">
-            <Link to="/signup" className="bg-[#2E7D32] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#1B5E20] transition-colors inline-block text-lg shadow-md hover:shadow-lg">
-              Sign Up
-            </Link>
-          </div>
+            <motion.div 
+              className="mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  delay: 1,
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1]
+                }
+              }}
+            >
+              <Link 
+                to="/signup" 
+                className="relative overflow-hidden group bg-[#2E7D32] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#1B5E20] transition-all duration-300 inline-block text-lg shadow-md hover:shadow-lg"
+              >
+                <span className="relative z-10">Sign Up</span>
+                <motion.span 
+                  className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '0%' }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
