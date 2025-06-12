@@ -185,6 +185,50 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Health Tips Banner */}
+      <section className="py-14 bg-gradient-to-r from-[#E8F5E9] to-[#C8E6C9] relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute -top-10 -left-10 w-40 h-40 bg-green-400 rounded-full"></div>
+          <div className="absolute top-1/2 right-0 w-64 h-64 bg-emerald-400 rounded-full -mr-20"></div>
+          <div className="absolute bottom-0 left-1/3 w-32 h-32 bg-teal-300 rounded-full -mb-10"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 shadow-lg border border-white/30">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="md:w-2/3 mb-6 md:mb-0">
+                <span className="inline-block bg-gradient-to-r from-green-600 to-emerald-600 text-white text-sm font-semibold px-4 py-1 rounded-full mb-3">
+                  💡 Tips Sehat Hari Ini
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+                  Mulai Hidup Sehat Hari Ini
+                </h2>
+                <p className="text-gray-700 text-lg mb-6">
+                  Dapatkan panduan nutrisi pribadi dan rekomendasi makanan sehat berdasarkan kebutuhan harian Anda. 
+                  Bergabunglah dengan ribuan orang yang sudah merasakan manfaatnya!
+                </p>
+
+              </div>
+              <div className="md:w-1/3 flex justify-center">
+                <div className="relative">
+                  <img 
+                    src="/assets/image/healthy-eating.png" 
+                    alt="Healthy Eating" 
+                    className="h-56 w-auto object-contain"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/250x250/E8F5E9/4CAF50?text=Healthy+Food';
+                    }}
+                  />
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -573,7 +573,7 @@ const AboutUs = () => {
                   onClick={() => setShowTutorial(true)}
                   className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center mx-auto"
                 >
-                  Pelajari Lebih Lanjut
+                  Learn More
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -585,11 +585,11 @@ const AboutUs = () => {
                 <div className="text-center mb-16">
                   <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-600">
-                      Apa Kata Mereka?
+                      What Do They Say?
                     </span>
                   </h2>
                   <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Lihat apa yang pengguna katakan tentang pengalaman mereka dengan NutriJel
+                    See what users say about their experience with NutriJel
                   </p>
                 </div>
 
