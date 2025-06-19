@@ -36,8 +36,8 @@ Try our ML model: [Google Colab](https://colab.research.google.com/drive/1rnpUww
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/nutricheck.git
-cd nutricheck
+git clone https://github.com/yourusername/nutrijel.git
+cd nutrijel
 ```
 
 2. **Install dependencies**
@@ -67,7 +67,7 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-nutricheck/
+nutrijel/
 ├── Machine Learning/           # ML model training and datasets
 ├── public/                    # Static assets and ML model files
 │   ├── assets/
@@ -139,5 +139,5 @@ For any queries or support, please reach out to:
 ---
 
 <div align="center">
-Made with ❤️ by the Nutricheck Team
+Made with ❤️ by the Nutrijel Team
 </div>
