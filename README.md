@@ -9,7 +9,7 @@
 
 ## 🚀 Live Demo
 
-Access our web application: [Nutricheck App](https://nutricheck-app.vercel.app)
+Access our web application: nutrijel.netlify.app
 
 Try our ML model: [Google Colab](https://colab.research.google.com/drive/1rnpUww7mknYIARqoPaW0iRGsPf4NJsmA?usp=sharing)
 
